@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>关于 | 山海柯</title>
+<title>重新安排行程（leetcode题目） | 山海柯</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,15 +33,10 @@
 </script>
 
 
-    <meta name="description" content="
-欢迎来到我的小站呀，很高兴遇见你！🤝
-
-🏠 关于本站
-👨‍💻 博主是谁
-⛹ 兴趣爱好
-📬 联系我呀
-..." />
-    <meta name="keywords" content="" />
+    <meta name="description" content="题目描述：
+给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。
+这..." />
+    <meta name="keywords" content="leetcode" />
   </head>
   <body>
     <div id="app" class="main">
@@ -116,19 +111,53 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">关于</h2>
-            <div class="post-date">2019-01-25</div>
+            <h2 class="post-title">重新安排行程（leetcode题目）</h2>
+            <div class="post-date">2020-09-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://gsdukbh.github.io/post-images/chong-xin-an-pai-xing-cheng-leetcode-ti-mu.jpg')">
+              </div>
             
             <div class="post-content" v-pre>
-              <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+              <p>题目描述：<br>
+给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。</p>
+<p>这个问题和 <a href="%5Bhttps://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98%5D(https://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98)">七桥问题</a> 相同，看能不能一次性的走完机场。</p>
+<h3 id="解决方法">解决方法：</h3>
+<pre><code class="language-java">public List&lt;String&gt; findItinerary(List&lt;List&lt;String&gt;&gt; tickets) {
+        List&lt;String&gt; res = new ArrayList&lt;&gt;();
+        Map&lt;String, PriorityQueue&lt;String&gt;&gt; map = new HashMap&lt;&gt;(16);
+//        邻接表
+        for (List&lt;String&gt; list :
+                tickets) {
+            String dep = list.get(0), destination = list.get(1);
+            if (!map.containsKey(dep)) {
+                map.put(dep, new PriorityQueue&lt;&gt;());
+            }
+            map.get(dep).offer(destination);
+        }
+        dfs(map, res, &quot;JFK&quot;);
+    // 逆序反转
+        Collections.reverse(res);
+        return res;
+    }
+
+    private void dfs(Map&lt;String, PriorityQueue&lt;String&gt;&gt; map, List&lt;String&gt; res, String dep) {
+        while (map.containsKey(dep) &amp;&amp; map.get(dep).size() &gt; 0) {
+            String tem = map.get(dep).poll();
+            dfs(map, res, tem);
+        }
+        res.add(dep);
+    }
+</code></pre>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://gsdukbh.github.io/tag/leetcode/" class="tag">
+                    leetcode
+                  </a>
+                
+              </div>
             
             
 
