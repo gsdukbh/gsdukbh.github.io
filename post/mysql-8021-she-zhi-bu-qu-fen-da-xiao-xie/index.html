@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>MySQL 8.0.21 设置不区分大小写 | 山海柯</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://gsdukbh.github.io/favicon.ico?v=1600163876034">
+<link rel="stylesheet" href="https://gsdukbh.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161472463-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161472463-2');
+</script>
+
+
+    <meta name="description" content="🤑遇坑了，碰到一个项目，需要设置数据库表名不区分大小写。但是MySQL在Linux服务器是区分大小写的。记录下解决过程，以便后续使用。
+
+方法一
+MySQL 在Windows上，默认值为1。在macOS上，默认值为2。在Linux上，不支..." />
+    <meta name="keywords" content="MySQL" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://gsdukbh.github.io">
+        <img src="https://gsdukbh.github.io/images/avatar.png?v=1600163876034" class="site-logo">
+        <h1 class="site-title">山海柯</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/gsdukbh" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      永远在路上🍢
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://gsdukbh.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">MySQL 8.0.21 设置不区分大小写</h2>
+            <div class="post-date">2020-09-07</div>
+            
+            <div class="post-content" v-pre>
+              <p>🤑遇坑了，碰到一个项目，需要设置数据库表名不区分大小写。但是<code>MySQL</code>在<code>Linux</code>服务器是区分大小写的。记录下解决过程，以便后续使用。</p>
+<!-- more -->
+<h3 id="方法一">方法一</h3>
+<p><code>MySQL</code> 在<code>Windows</code>上，默认值为1。在<code>macOS</code>上，默认值为2。在<code>Linux</code>上，不支持值2；在<code>Linux</code>上，默认值为2。服务器将值强制改为0。<br>
+在<code>MySQL</code> 文档中有提到:<a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names">lower_case_table_names</a>设置问题。</p>
+<blockquote>
+<p>It is therefore necessary to configure lower_case_table_names to the desired setting before initializing the server. In most cases, this requires configuring lower_case_table_names in a MySQL option file before starting the MySQL server for the first time. For APT installations on Debian and Ubuntu, however, the server is initialized for you, and there is no opportunity to configure the setting in an option file beforehand. You must therefore use the debconf-set-selection utility prior to installing MySQL using APT to enable lower_case_table_names. To do so, run this command before installing MySQL using APT:</p>
+</blockquote>
+<p>需要在MySQL初始化之前进行设置 ，官方给出的命令：</p>
+<pre><code class="language-shell">sudo debconf-set-selections &lt;&lt;&lt; &quot;mysql-server mysql-server/lowercase-table-names select Enabled&quot;
+</code></pre>
+<p>很遗憾的是这个方法我没有成功。</p>
+<h3 id="方法二">方法二</h3>
+<p>在<code>MySQL</code>安装后，设置<code>lower_case_table_names</code> 重新初始化<code>MySQL</code>。这样做会丢失数据。</p>
+<ol>
+<li>安装<code>MySQL</code></li>
+</ol>
+<pre><code class="language-bash">sudo apt-get update 
+sudo apt-get install mysql-server -y
+</code></pre>
+<ol start="2">
+<li>停止MySQL服务：</li>
+</ol>
+<pre><code class="language-bash">sudo service mysql stop
+</code></pre>
+<ol start="3">
+<li>删除MySQL数据目录：</li>
+</ol>
+<pre><code class="language-bash">sudo rm -rf /var/lib/mysql
+</code></pre>
+<ol start="4">
+<li>重新创建MySQL数据目录：</li>
+</ol>
+<pre><code class="language-bash">sudo mkdir /var/lib/mysql    
+sudo chown mysql:mysql /var/lib/mysql
+sudo chmod 700 /var/lib/mysql
+</code></pre>
+<ol start="5">
+<li>
+<p>添加<code>lower_case_table_names = 1</code>到中的<code>[mysqld]</code>部分<code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>。</p>
+</li>
+<li>
+<p>用以下命令重新初始化<code>MySQL --lower_case_table_names=1</code>：</p>
+</li>
+</ol>
+<pre><code class="language-bash">sudo mysqld --defaults-file /etc/mysql/my.cnf --initialize --lower_case_table_names=1 --user=mysql --console
+</code></pre>
+<ol start="7">
+<li>启动MySQL服务：</li>
+</ol>
+<pre><code class="language-bash">sudo service mysql start
+</code></pre>
+<ol start="8">
+<li>检查结果。</li>
+</ol>
+<pre><code class="language-bash">mysql
+SHOW VARIABLES LIKE 'lower_case_%';
+</code></pre>
+<h5 id="预期">预期：</h5>
+<pre><code class="language-txt">+------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| lower_case_file_system | OFF   |
+| lower_case_table_names | 1     |
++------------------------+-------+
+</code></pre>
+<h5 id="实际上">实际上：</h5>
+<pre><code class="language-txt">+------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| lower_case_file_system | OFF   |
+| lower_case_table_names | 0     |
++------------------------+-------+
+</code></pre>
+<p>显然这个方法并不使用我的服务器。 我🙄花这么久的时间来设置这个东西到底有何用？</p>
+<p>我的服务器服务器配置：</p>
+<pre><code class="language-txt">Ubuntu 20.04.1 LTS arm64 
+</code></pre>
+<h1 id="更新">更新</h1>
+<h4 id="方法三">方法三</h4>
+<p>之前的配置方法和 方法二 一样，不同的是重新初始化数据部分，根据<a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html">文档说明</a> 可以使用 <code>Igor Mikushkin</code> 写的脚本 ： <a href="https://github.com/igrmk/ubuntu-reinit-mysql">MySQL-reinit</a></p>
+<h1 id="使用docker-镜像部署">使用Docker 镜像部署</h1>
+<p>当在使用docker 设置MySQL时会很方便，</p>
+<pre><code class="language-shell"> 
+参考命令行：docker run --name mysql8 -p 3306:3306 -p 33006:33006 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.21 --lower_case_table_names=1
+
+</code></pre>
+<h1 id="参阅">参阅</h1>
+<ol>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names">lower_case_table_names</a></p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html">Identifier Case Sensitivity</a></p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/51803216/lower-case-table-names-settings-in-mysql-8-0-12">lower_case_table_names Settings in MySQL 8.0.12</a></p>
+</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://gsdukbh.github.io/tag/yZamnDlzV/" class="tag">
+                    MySQL
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://gsdukbh.github.io/post/tiao-shui-ban-diving-board/">
+                  <h3 class="post-title">
+                    跳水版-Diving Board
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7860c83253ad9987e975',
+        clientSecret: 'e7723232d3761c9f4c9905c28382c8f651ba598f',
+        repo: 'gsdukbh.github.io',
+        owner: 'gsdukbh',
+        admin: ['gsdukbh'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

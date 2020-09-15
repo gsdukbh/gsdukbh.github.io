@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>跳水版-Diving Board | 山海柯</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://gsdukbh.github.io/favicon.ico?v=1600163876034">
+<link rel="stylesheet" href="https://gsdukbh.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161472463-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161472463-2');
+</script>
+
+
+    <meta name="description" content="题目描述
+你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为 shorter，长度较长的木 板长度为longer。你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
+
+示例 ：
+输入：
+shorter =..." />
+    <meta name="keywords" content="leetcode" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://gsdukbh.github.io">
+        <img src="https://gsdukbh.github.io/images/avatar.png?v=1600163876034" class="site-logo">
+        <h1 class="site-title">山海柯</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/gsdukbh" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      永远在路上🍢
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://gsdukbh.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">跳水版-Diving Board</h2>
+            <div class="post-date">2020-09-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://gsdukbh.github.io/post-images/tiao-shui-ban-diving-board.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h4 id="题目描述">题目描述</h4>
+<p>你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为 <code>shorter</code>，长度较长的木 板长度为<code>longer</code>。你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。</p>
+<!-- more -->
+<h5 id="示例">示例 ：</h5>
+<pre><code class="language-txt">输入：
+shorter = 1
+longer = 2
+k = 3
+输出： {3,4,5,6}
+</code></pre>
+<h5 id="提示">提示 ：</h5>
+<ul>
+<li>0 &lt; shorter &lt;= longer</li>
+<li>0 &lt;= k &lt;= 100000</li>
+</ul>
+<h4 id="思路">思路：</h4>
+<p>我们可以观察题目，运用初中的知识得出长度的函数：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Z</mi><mo>=</mo><mo>(</mo><mi>K</mi><mo>−</mo><mi>X</mi><mo>)</mo><mo>∗</mo><mi>S</mi><mi>h</mi><mi>o</mi><mi>r</mi><mi>e</mi><mo>+</mo><mi>X</mi><mo>∗</mo><mi>l</mi><mi>o</mi><mi>n</mi><mi>g</mi><mi>e</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">Z=(K-X)*Shore+X*longer
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span></span></span></span></p>
+<p>这里 Z 是拼接出长度的值，k为木板数量，x为使用长度为longer的数量。</p>
+<p>代码：</p>
+<pre><code class="language-java">class Solution {
+    public int[] divingBoard(int shorter, int longer, int k) {
+       
+        if (k == 0) {
+            return new int[0];
+        }
+        if (shorter == longer) {
+            return new int[]{shorter * k};
+        }
+        int[] lengths = new int[k + 1];
+        for (int i = 0; i &lt;= k; i++) {
+            lengths[i] = shorter * (k - i) + longer * i;
+        }
+        return lengths;
+    }
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://gsdukbh.github.io/tag/leetcode/" class="tag">
+                    leetcode
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://gsdukbh.github.io/post/chong-xin-an-pai-xing-cheng-leetcode-ti-mu/">
+                  <h3 class="post-title">
+                    重新安排行程（leetcode题目）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7860c83253ad9987e975',
+        clientSecret: 'e7723232d3761c9f4c9905c28382c8f651ba598f',
+        repo: 'gsdukbh.github.io',
+        owner: 'gsdukbh',
+        admin: ['gsdukbh'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

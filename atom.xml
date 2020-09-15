@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://gsdukbh.github.io</id>
     <title>山海柯</title>
-    <updated>2020-09-06T05:09:24.872Z</updated>
+    <updated>2020-09-15T09:58:22.952Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://gsdukbh.github.io"/>
     <link rel="self" href="https://gsdukbh.github.io/atom.xml"/>
@@ -10,6 +10,195 @@
     <logo>https://gsdukbh.github.io/images/avatar.png</logo>
     <icon>https://gsdukbh.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 山海柯</rights>
+    <entry>
+        <title type="html"><![CDATA[我的树莓派被黑了。]]></title>
+        <id>https://gsdukbh.github.io/post/wo-de-shu-mei-pai-bei-hei-liao/</id>
+        <link href="https://gsdukbh.github.io/post/wo-de-shu-mei-pai-bei-hei-liao/">
+        </link>
+        <updated>2020-09-09T15:36:59.000Z</updated>
+        <content type="html"><![CDATA[<p>昨天。我小小的树莓派4，居然被人给和黑了。我登录上树莓派时就发现不对劲，网络流量占用太多了，然后我第一时间想到昨天刚刚设置了<code>docker</code>远程tls链接，而且还是按照官网来设置。果不其然，我查看了<code>docker</code>镜像多出了一个我没有使用的镜像。</p>
+<h1 id="被黑的原因">被黑的原因。</h1>
+<p>我细想来，就只有<code>docker</code> 远程控制端口设置tls失败了，没有验证证书，可以直接连接。<br>
+使用<code>root</code>和<code>docker</code>组创建的镜像的权限是非常的高的。可以在镜像中挂载任何目录，因此，很有可能是入侵了<code>~/.ssh</code>文件夹，并添加了他的证书，获取了权限。</p>
+<h1 id="找到入侵的用户">找到入侵的用户。</h1>
+<p>断开网络后，我开始按照阿里巴巴木马查杀教程进行了一下步骤。</p>
+<ol>
+<li>
+<p>执行<code>last,lastlog</code>命令，查看最近登录的账户和登录时间，锁定异常账户。<br>
+在查找日志的，发现日志太长，接近100mb，我果断放弃了。</p>
+</li>
+<li>
+<p>查看<code>/etc/passwd</code>和<code>/etc/shadow</code> 文件下是否有异常的用户。果然，我在<code>/etc/shadow</code> 发现异常的用户，然后我尝试使用<code>userdel</code>命令删除该用户，却提示<code>/etc/passwd</code>文件无权写入，显然被加锁了。我是用<code>lsattr</code>  命令查看<code>/etc/passwd</code> 文件，被加上了<code>i</code>和<code>a</code> 显然不是能修改和删除文件的。我使用了<code>chattr</code>解除了限制。并且它的目录删除。</p>
+</li>
+<li>
+<p>删除用户之后，木马脚本依然在后台不停的跑着。我查看计划任务里面，果然有几个任务，不停在下载东西。估计是被当成肉鸡了。</p>
+</li>
+<li>
+<p>最后更换了<code>.ssh</code> 文件夹下<code>authorized_keys</code>文件证书。到现在没有发现有任何异常的现象。</p>
+</li>
+</ol>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.alibabacloud.com/help/zh/doc-detail/140335.htm">Linux木马查杀-最佳实战</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MySQL 8.0.21 设置不区分大小写]]></title>
+        <id>https://gsdukbh.github.io/post/mysql-8021-she-zhi-bu-qu-fen-da-xiao-xie/</id>
+        <link href="https://gsdukbh.github.io/post/mysql-8021-she-zhi-bu-qu-fen-da-xiao-xie/">
+        </link>
+        <updated>2020-09-07T14:43:45.000Z</updated>
+        <summary type="html"><![CDATA[<p>🤑遇坑了，碰到一个项目，需要设置数据库表名不区分大小写。但是<code>MySQL</code>在<code>Linux</code>服务器是区分大小写的。记录下解决过程，以便后续使用。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>🤑遇坑了，碰到一个项目，需要设置数据库表名不区分大小写。但是<code>MySQL</code>在<code>Linux</code>服务器是区分大小写的。记录下解决过程，以便后续使用。</p>
+<!-- more -->
+<h3 id="方法一">方法一</h3>
+<p><code>MySQL</code> 在<code>Windows</code>上，默认值为1。在<code>macOS</code>上，默认值为2。在<code>Linux</code>上，不支持值2；在<code>Linux</code>上，默认值为2。服务器将值强制改为0。<br>
+在<code>MySQL</code> 文档中有提到:<a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names">lower_case_table_names</a>设置问题。</p>
+<blockquote>
+<p>It is therefore necessary to configure lower_case_table_names to the desired setting before initializing the server. In most cases, this requires configuring lower_case_table_names in a MySQL option file before starting the MySQL server for the first time. For APT installations on Debian and Ubuntu, however, the server is initialized for you, and there is no opportunity to configure the setting in an option file beforehand. You must therefore use the debconf-set-selection utility prior to installing MySQL using APT to enable lower_case_table_names. To do so, run this command before installing MySQL using APT:</p>
+</blockquote>
+<p>需要在MySQL初始化之前进行设置 ，官方给出的命令：</p>
+<pre><code class="language-shell">sudo debconf-set-selections &lt;&lt;&lt; &quot;mysql-server mysql-server/lowercase-table-names select Enabled&quot;
+</code></pre>
+<p>很遗憾的是这个方法我没有成功。</p>
+<h3 id="方法二">方法二</h3>
+<p>在<code>MySQL</code>安装后，设置<code>lower_case_table_names</code> 重新初始化<code>MySQL</code>。这样做会丢失数据。</p>
+<ol>
+<li>安装<code>MySQL</code></li>
+</ol>
+<pre><code class="language-bash">sudo apt-get update 
+sudo apt-get install mysql-server -y
+</code></pre>
+<ol start="2">
+<li>停止MySQL服务：</li>
+</ol>
+<pre><code class="language-bash">sudo service mysql stop
+</code></pre>
+<ol start="3">
+<li>删除MySQL数据目录：</li>
+</ol>
+<pre><code class="language-bash">sudo rm -rf /var/lib/mysql
+</code></pre>
+<ol start="4">
+<li>重新创建MySQL数据目录：</li>
+</ol>
+<pre><code class="language-bash">sudo mkdir /var/lib/mysql    
+sudo chown mysql:mysql /var/lib/mysql
+sudo chmod 700 /var/lib/mysql
+</code></pre>
+<ol start="5">
+<li>
+<p>添加<code>lower_case_table_names = 1</code>到中的<code>[mysqld]</code>部分<code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>。</p>
+</li>
+<li>
+<p>用以下命令重新初始化<code>MySQL --lower_case_table_names=1</code>：</p>
+</li>
+</ol>
+<pre><code class="language-bash">sudo mysqld --defaults-file /etc/mysql/my.cnf --initialize --lower_case_table_names=1 --user=mysql --console
+</code></pre>
+<ol start="7">
+<li>启动MySQL服务：</li>
+</ol>
+<pre><code class="language-bash">sudo service mysql start
+</code></pre>
+<ol start="8">
+<li>检查结果。</li>
+</ol>
+<pre><code class="language-bash">mysql
+SHOW VARIABLES LIKE 'lower_case_%';
+</code></pre>
+<h5 id="预期">预期：</h5>
+<pre><code class="language-txt">+------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| lower_case_file_system | OFF   |
+| lower_case_table_names | 1     |
++------------------------+-------+
+</code></pre>
+<h5 id="实际上">实际上：</h5>
+<pre><code class="language-txt">+------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| lower_case_file_system | OFF   |
+| lower_case_table_names | 0     |
++------------------------+-------+
+</code></pre>
+<p>显然这个方法并不使用我的服务器。 我🙄花这么久的时间来设置这个东西到底有何用？</p>
+<p>我的服务器服务器配置：</p>
+<pre><code class="language-txt">Ubuntu 20.04.1 LTS arm64 
+</code></pre>
+<h1 id="更新">更新</h1>
+<h4 id="方法三">方法三</h4>
+<p>之前的配置方法和 方法二 一样，不同的是重新初始化数据部分，根据<a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html">文档说明</a> 可以使用 <code>Igor Mikushkin</code> 写的脚本 ： <a href="https://github.com/igrmk/ubuntu-reinit-mysql">MySQL-reinit</a></p>
+<h1 id="使用docker-镜像部署">使用Docker 镜像部署</h1>
+<p>当在使用docker 设置MySQL时会很方便，</p>
+<pre><code class="language-shell"> 
+参考命令行：docker run --name mysql8 -p 3306:3306 -p 33006:33006 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.21 --lower_case_table_names=1
+
+</code></pre>
+<h1 id="参阅">参阅</h1>
+<ol>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names">lower_case_table_names</a></p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html">Identifier Case Sensitivity</a></p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/51803216/lower-case-table-names-settings-in-mysql-8-0-12">lower_case_table_names Settings in MySQL 8.0.12</a></p>
+</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[跳水版-Diving Board]]></title>
+        <id>https://gsdukbh.github.io/post/tiao-shui-ban-diving-board/</id>
+        <link href="https://gsdukbh.github.io/post/tiao-shui-ban-diving-board/">
+        </link>
+        <updated>2020-09-06T13:11:35.000Z</updated>
+        <summary type="html"><![CDATA[<h4 id="题目描述">题目描述</h4>
+<p>你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为 <code>shorter</code>，长度较长的木 板长度为<code>longer</code>。你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h4 id="题目描述">题目描述</h4>
+<p>你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为 <code>shorter</code>，长度较长的木 板长度为<code>longer</code>。你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。</p>
+<!-- more -->
+<h5 id="示例">示例 ：</h5>
+<pre><code class="language-txt">输入：
+shorter = 1
+longer = 2
+k = 3
+输出： {3,4,5,6}
+</code></pre>
+<h5 id="提示">提示 ：</h5>
+<ul>
+<li>0 &lt; shorter &lt;= longer</li>
+<li>0 &lt;= k &lt;= 100000</li>
+</ul>
+<h4 id="思路">思路：</h4>
+<p>我们可以观察题目，运用初中的知识得出长度的函数：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Z</mi><mo>=</mo><mo>(</mo><mi>K</mi><mo>−</mo><mi>X</mi><mo>)</mo><mo>∗</mo><mi>S</mi><mi>h</mi><mi>o</mi><mi>r</mi><mi>e</mi><mo>+</mo><mi>X</mi><mo>∗</mo><mi>l</mi><mi>o</mi><mi>n</mi><mi>g</mi><mi>e</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">Z=(K-X)*Shore+X*longer
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span></span></span></span></p>
+<p>这里 Z 是拼接出长度的值，k为木板数量，x为使用长度为longer的数量。</p>
+<p>代码：</p>
+<pre><code class="language-java">class Solution {
+    public int[] divingBoard(int shorter, int longer, int k) {
+       
+        if (k == 0) {
+            return new int[0];
+        }
+        if (shorter == longer) {
+            return new int[]{shorter * k};
+        }
+        int[] lengths = new int[k + 1];
+        for (int i = 0; i &lt;= k; i++) {
+            lengths[i] = shorter * (k - i) + longer * i;
+        }
+        return lengths;
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[重新安排行程（leetcode题目）]]></title>
         <id>https://gsdukbh.github.io/post/chong-xin-an-pai-xing-cheng-leetcode-ti-mu/</id>

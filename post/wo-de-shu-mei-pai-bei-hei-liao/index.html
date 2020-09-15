@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>重新安排行程（leetcode题目） | 山海柯</title>
+<title>我的树莓派被黑了。 | 山海柯</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,10 +33,9 @@
 </script>
 
 
-    <meta name="description" content="题目描述：
-给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。
-这..." />
-    <meta name="keywords" content="leetcode" />
+    <meta name="description" content="昨天。我小小的树莓派4，居然被人给和黑了。我登录上树莓派时就发现不对劲，网络流量占用太多了，然后我第一时间想到昨天刚刚设置了docker远程tls链接，而且还是按照官网来设置。果不其然，我查看了docker镜像多出了一个我没有使用的镜像。
+..." />
+    <meta name="keywords" content="服务器,安全" />
   </head>
   <body>
     <div id="app" class="main">
@@ -111,54 +110,57 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">重新安排行程（leetcode题目）</h2>
-            <div class="post-date">2020-09-06</div>
-            
-              <div class="feature-container" style="background-image: url('https://gsdukbh.github.io/post-images/chong-xin-an-pai-xing-cheng-leetcode-ti-mu.jpg')">
-              </div>
+            <h2 class="post-title">我的树莓派被黑了。</h2>
+            <div class="post-date">2020-09-09</div>
             
             <div class="post-content" v-pre>
-              <p>题目描述：<br>
-给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。</p>
-<p>这个问题和 <a href="%5Bhttps://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98%5D(https://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98)">七桥问题</a> 相同，看能不能一次性的走完机场。</p>
-<h3 id="解决方法">解决方法：</h3>
-<pre><code class="language-java">public List&lt;String&gt; findItinerary(List&lt;List&lt;String&gt;&gt; tickets) {
-        List&lt;String&gt; res = new ArrayList&lt;&gt;();
-        Map&lt;String, PriorityQueue&lt;String&gt;&gt; map = new HashMap&lt;&gt;(16);
-//        邻接表
-        for (List&lt;String&gt; list :
-                tickets) {
-            String dep = list.get(0), destination = list.get(1);
-            if (!map.containsKey(dep)) {
-                map.put(dep, new PriorityQueue&lt;&gt;());
-            }
-            map.get(dep).offer(destination);
-        }
-        dfs(map, res, &quot;JFK&quot;);
-    // 逆序反转
-        Collections.reverse(res);
-        return res;
-    }
-
-    private void dfs(Map&lt;String, PriorityQueue&lt;String&gt;&gt; map, List&lt;String&gt; res, String dep) {
-        while (map.containsKey(dep) &amp;&amp; map.get(dep).size() &gt; 0) {
-            String tem = map.get(dep).poll();
-            dfs(map, res, tem);
-        }
-        res.add(dep);
-    }
-</code></pre>
+              <p>昨天。我小小的树莓派4，居然被人给和黑了。我登录上树莓派时就发现不对劲，网络流量占用太多了，然后我第一时间想到昨天刚刚设置了<code>docker</code>远程tls链接，而且还是按照官网来设置。果不其然，我查看了<code>docker</code>镜像多出了一个我没有使用的镜像。</p>
+<h1 id="被黑的原因">被黑的原因。</h1>
+<p>我细想来，就只有<code>docker</code> 远程控制端口设置tls失败了，没有验证证书，可以直接连接。<br>
+使用<code>root</code>和<code>docker</code>组创建的镜像的权限是非常的高的。可以在镜像中挂载任何目录，因此，很有可能是入侵了<code>~/.ssh</code>文件夹，并添加了他的证书，获取了权限。</p>
+<h1 id="找到入侵的用户">找到入侵的用户。</h1>
+<p>断开网络后，我开始按照阿里巴巴木马查杀教程进行了一下步骤。</p>
+<ol>
+<li>
+<p>执行<code>last,lastlog</code>命令，查看最近登录的账户和登录时间，锁定异常账户。<br>
+在查找日志的，发现日志太长，接近100mb，我果断放弃了。</p>
+</li>
+<li>
+<p>查看<code>/etc/passwd</code>和<code>/etc/shadow</code> 文件下是否有异常的用户。果然，我在<code>/etc/shadow</code> 发现异常的用户，然后我尝试使用<code>userdel</code>命令删除该用户，却提示<code>/etc/passwd</code>文件无权写入，显然被加锁了。我是用<code>lsattr</code>  命令查看<code>/etc/passwd</code> 文件，被加上了<code>i</code>和<code>a</code> 显然不是能修改和删除文件的。我使用了<code>chattr</code>解除了限制。并且它的目录删除。</p>
+</li>
+<li>
+<p>删除用户之后，木马脚本依然在后台不停的跑着。我查看计划任务里面，果然有几个任务，不停在下载东西。估计是被当成肉鸡了。</p>
+</li>
+<li>
+<p>最后更换了<code>.ssh</code> 文件夹下<code>authorized_keys</code>文件证书。到现在没有发现有任何异常的现象。</p>
+</li>
+</ol>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.alibabacloud.com/help/zh/doc-detail/140335.htm">Linux木马查杀-最佳实战</a></p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://gsdukbh.github.io/tag/leetcode/" class="tag">
-                    leetcode
+                  <a href="https://gsdukbh.github.io/tag/FUklxbg3x/" class="tag">
+                    服务器
+                  </a>
+                
+                  <a href="https://gsdukbh.github.io/tag/Uz-9l8dgy/" class="tag">
+                    安全
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://gsdukbh.github.io/post/mysql-8021-she-zhi-bu-qu-fen-da-xiao-xie/">
+                  <h3 class="post-title">
+                    MySQL 8.0.21 设置不区分大小写
+                  </h3>
+                </a>
+              </div>
             
 
             
