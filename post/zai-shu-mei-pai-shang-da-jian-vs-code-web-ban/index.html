@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>我的树莓派被黑了。 | 山海柯</title>
+<title>在树莓派上搭建vs-code-web版 | 山海柯</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,9 +33,9 @@
 </script>
 
 
-    <meta name="description" content="昨天。我小小的树莓派4，居然被人给和黑了。我登录上树莓派时就发现不对劲，网络流量占用太多了，然后我第一时间想到昨天刚刚设置了docker远程tls链接，而且还是按照官网来设置。果不其然，我查看了docker镜像多出了一个我没有使用的镜像。
-..." />
-    <meta name="keywords" content="服务器,安全" />
+    <meta name="description" content="vs-code 是微软开发的轻量级IDE，相信很多人都使用过，丰富的插件，让人爱不释手。同还能利用remote-ssh 进行远程开发。
+最近在闲逛GitHub的时候发现，vscode竟然是开源的项目，😱😱😱😱，（原谅我对微软的固有印..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -110,54 +110,52 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">我的树莓派被黑了。</h2>
-            <div class="post-date">2020-09-09</div>
+            <h2 class="post-title">在树莓派上搭建vs-code-web版</h2>
+            <div class="post-date">2020-09-15</div>
             
             <div class="post-content" v-pre>
-              <p>昨天。我小小的树莓派4，居然被人给和黑了。我登录上树莓派时就发现不对劲，网络流量占用太多了，然后我第一时间想到昨天刚刚设置了<code>docker</code>远程tls链接，而且还是按照官网来设置。果不其然，我查看了<code>docker</code>镜像多出了一个我没有使用的镜像。</p>
-<h1 id="被黑的原因">被黑的原因。</h1>
-<p>我细想来，就只有<code>docker</code> 远程控制端口设置tls失败了，没有验证证书，可以直接连接。<br>
-使用<code>root</code>和<code>docker</code>组创建的镜像的权限是非常的高的。可以在镜像中挂载任何目录，因此，很有可能是入侵了<code>~/.ssh</code>文件夹，并添加了他的证书，获取了权限。</p>
-<h1 id="找到入侵的用户">找到入侵的用户。</h1>
-<p>断开网络后，我开始按照阿里巴巴木马查杀教程进行了一下步骤。</p>
+              <p><code>vs-code</code> 是微软开发的轻量级IDE，相信很多人都使用过，丰富的插件，让人爱不释手。同还能利用<code>remote-ssh</code> 进行远程开发。<br>
+最近在闲逛GitHub的时候发现，<code>vscode</code>竟然是开源的项目，😱😱😱😱，（原谅我对微软的固有印象），我发现他的主要语言是<code>typeScript</code>，并且使用了<code>yarn</code>进行构建，利用<code>Electron</code> 构建桌面应用的。<br>
+所以<code>vccode</code> 完全可以远行在服务器上，并以web的形式展现。好的，废话不多说，我们现在就开始。</p>
+<h2 id="树莓派环境准备">树莓派环境准备</h2>
+<p>我的树莓派使用<code>ubuntu</code>的64位系统，使用软件包管理器安装<code>node.js</code>。其他32位系统可以参考这里<a href="https://github.com/cdr/code-server">code</a></p>
+<pre><code class="language-shell">apt updata &amp;&amp; apt upgrade &amp;&amp; apt install nodejs &amp;&amp; apt install npm
+</code></pre>
+<p>然后安装<code>yarn</code> ：</p>
+<pre><code class="language-shell">npm install -g yarn # 全局安装
+</code></pre>
+<h2 id="构建项目">构建项目</h2>
+<p>下载源码构建</p>
+<pre><code class="language-shell">git clone https://github.com/microsoft/vscode.git
+cd vscode 
+yarn # 
+yarn web
+</code></pre>
+<p>然后打开浏览器 就能使用vscode 了。</p>
+<blockquote>
+<p>使用源码构建会遇见很多常见的问题，更加具体的构建可以看这里<a href="https://github.com/microsoft/vscode/wiki/How-to-Contribute#build-and-run">GitHub构建</a></p>
+</blockquote>
+<h2 id="利用现有构建好的包">利用现有构建好的包。</h2>
+<p>目前有一下几个构建好的。</p>
 <ol>
-<li>
-<p>执行<code>last,lastlog</code>命令，查看最近登录的账户和登录时间，锁定异常账户。<br>
-在查找日志的，发现日志太长，接近100mb，我果断放弃了。</p>
-</li>
-<li>
-<p>查看<code>/etc/passwd</code>和<code>/etc/shadow</code> 文件下是否有异常的用户。果然，我在<code>/etc/shadow</code> 发现异常的用户，然后我尝试使用<code>userdel</code>命令删除该用户，却提示<code>/etc/passwd</code>文件无权写入，显然被加锁了。我是用<code>lsattr</code>  命令查看<code>/etc/passwd</code> 文件，被加上了<code>i</code>和<code>a</code> 显然不是能修改和删除文件的。我使用了<code>chattr</code>解除了限制。并且它的目录删除。</p>
-</li>
-<li>
-<p>删除用户之后，木马脚本依然在后台不停的跑着。我查看计划任务里面，果然有几个任务，不停在下载东西。估计是被当成肉鸡了。</p>
-</li>
-<li>
-<p>最后更换了<code>.ssh</code> 文件夹下<code>authorized_keys</code>文件证书。到现在没有发现有任何异常的现象。</p>
-</li>
+<li><a href="https://update.code.visualstudio.com/latest/linux-deb-arm64/insider">arm64</a> deb包可以直接安装</li>
+<li><a href="https://update.code.visualstudio.com/latest/linux-deb-armhf/insider">armv71</a> 树莓派原生系统可以直接使用。</li>
+<li><a href="https://hub.docker.com/r/linuxserver/code-server">docker镜像</a></li>
+<li><a href="https://code.headmelted.com/#linux-install-scripts">code 安装脚本</a></li>
 </ol>
-<h1 id="参考">参考</h1>
-<p><a href="https://www.alibabacloud.com/help/zh/doc-detail/140335.htm">Linux木马查杀-最佳实战</a></p>
+<h2 id="结语">结语。</h2>
+<p>在我安装vscode 的树莓派版本的过程，我发现已经有很多现有构建好的的软件包了。并且<code>code-OSS</code>在9月11 号的时候已经构建好了桌面版的vscode 。web版的也有<code>docker</code>镜像支持了<code>arm64</code>和<code>armv71</code> 的网页版本。</p>
+<p>生命在于折腾。。。。。。</p>
+<p>安装完后发现，用处不大，也只用在身边没有电脑的使用可以用用了。</p>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://gsdukbh.github.io/tag/FUklxbg3x/" class="tag">
-                    服务器
-                  </a>
-                
-                  <a href="https://gsdukbh.github.io/tag/Uz-9l8dgy/" class="tag">
-                    安全
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://gsdukbh.github.io/post/mysql-8021-she-zhi-bu-qu-fen-da-xiao-xie/">
+                <a href="https://gsdukbh.github.io/post/wo-de-shu-mei-pai-bei-hei-liao/">
                   <h3 class="post-title">
-                    MySQL 8.0.21 设置不区分大小写
+                    我的树莓派被黑了。
                   </h3>
                 </a>
               </div>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://gsdukbh.github.io</id>
     <title>山海柯</title>
-    <updated>2020-09-15T10:05:15.591Z</updated>
+    <updated>2020-09-20T14:50:16.316Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://gsdukbh.github.io"/>
     <link rel="self" href="https://gsdukbh.github.io/atom.xml"/>
@@ -10,6 +10,47 @@
     <logo>https://gsdukbh.github.io/images/avatar.png</logo>
     <icon>https://gsdukbh.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 山海柯</rights>
+    <entry>
+        <title type="html"><![CDATA[在树莓派上搭建vs-code-web版]]></title>
+        <id>https://gsdukbh.github.io/post/zai-shu-mei-pai-shang-da-jian-vs-code-web-ban/</id>
+        <link href="https://gsdukbh.github.io/post/zai-shu-mei-pai-shang-da-jian-vs-code-web-ban/">
+        </link>
+        <updated>2020-09-15T13:40:50.000Z</updated>
+        <content type="html"><![CDATA[<p><code>vs-code</code> 是微软开发的轻量级IDE，相信很多人都使用过，丰富的插件，让人爱不释手。同还能利用<code>remote-ssh</code> 进行远程开发。<br>
+最近在闲逛GitHub的时候发现，<code>vscode</code>竟然是开源的项目，😱😱😱😱，（原谅我对微软的固有印象），我发现他的主要语言是<code>typeScript</code>，并且使用了<code>yarn</code>进行构建，利用<code>Electron</code> 构建桌面应用的。<br>
+所以<code>vccode</code> 完全可以远行在服务器上，并以web的形式展现。好的，废话不多说，我们现在就开始。</p>
+<h2 id="树莓派环境准备">树莓派环境准备</h2>
+<p>我的树莓派使用<code>ubuntu</code>的64位系统，使用软件包管理器安装<code>node.js</code>。其他32位系统可以参考这里<a href="https://github.com/cdr/code-server">code</a></p>
+<pre><code class="language-shell">apt updata &amp;&amp; apt upgrade &amp;&amp; apt install nodejs &amp;&amp; apt install npm
+</code></pre>
+<p>然后安装<code>yarn</code> ：</p>
+<pre><code class="language-shell">npm install -g yarn # 全局安装
+</code></pre>
+<h2 id="构建项目">构建项目</h2>
+<p>下载源码构建</p>
+<pre><code class="language-shell">git clone https://github.com/microsoft/vscode.git
+cd vscode 
+yarn # 
+yarn web
+</code></pre>
+<p>然后打开浏览器 就能使用vscode 了。</p>
+<blockquote>
+<p>使用源码构建会遇见很多常见的问题，更加具体的构建可以看这里<a href="https://github.com/microsoft/vscode/wiki/How-to-Contribute#build-and-run">GitHub构建</a></p>
+</blockquote>
+<h2 id="利用现有构建好的包">利用现有构建好的包。</h2>
+<p>目前有一下几个构建好的。</p>
+<ol>
+<li><a href="https://update.code.visualstudio.com/latest/linux-deb-arm64/insider">arm64</a> deb包可以直接安装</li>
+<li><a href="https://update.code.visualstudio.com/latest/linux-deb-armhf/insider">armv71</a> 树莓派原生系统可以直接使用。</li>
+<li><a href="https://hub.docker.com/r/linuxserver/code-server">docker镜像</a></li>
+<li><a href="https://code.headmelted.com/#linux-install-scripts">code 安装脚本</a></li>
+</ol>
+<h2 id="结语">结语。</h2>
+<p>在我安装vscode 的树莓派版本的过程，我发现已经有很多现有构建好的的软件包了。并且<code>code-OSS</code>在9月11 号的时候已经构建好了桌面版的vscode 。web版的也有<code>docker</code>镜像支持了<code>arm64</code>和<code>armv71</code> 的网页版本。</p>
+<p>生命在于折腾。。。。。。</p>
+<p>安装完后发现，用处不大，也只用在身边没有电脑的使用可以用用了。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[我的树莓派被黑了。]]></title>
         <id>https://gsdukbh.github.io/post/wo-de-shu-mei-pai-bei-hei-liao/</id>
