@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://gsdukbh.github.io</id>
     <title>山海柯</title>
-    <updated>2020-09-20T14:50:16.316Z</updated>
+    <updated>2020-11-16T12:38:48.728Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://gsdukbh.github.io"/>
     <link rel="self" href="https://gsdukbh.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://gsdukbh.github.io/images/avatar.png</logo>
     <icon>https://gsdukbh.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 山海柯</rights>
+    <entry>
+        <title type="html"><![CDATA[vue warn:Cannot read property 'XX' of undefined 错误]]></title>
+        <id>https://gsdukbh.github.io/post/vue-warncannot-read-property-xx-of-undefined-cuo-wu/</id>
+        <link href="https://gsdukbh.github.io/post/vue-warncannot-read-property-xx-of-undefined-cuo-wu/">
+        </link>
+        <updated>2020-11-16T12:09:22.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[在树莓派上搭建vs-code-web版]]></title>
         <id>https://gsdukbh.github.io/post/zai-shu-mei-pai-shang-da-jian-vs-code-web-ban/</id>
