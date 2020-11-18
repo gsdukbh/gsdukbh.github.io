@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://gsdukbh.github.io/favicon.ico?v=1605576866030">
+<link rel="shortcut icon" href="https://gsdukbh.github.io/favicon.ico?v=1605661633564">
 <link rel="stylesheet" href="https://gsdukbh.github.io/styles/main.css">
 
 
@@ -33,8 +33,9 @@
 </script>
 
 
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="写在前面
+最近在使用vue 写网页的时候，碰到了这个错误，Cannot read property 'XX' of undefined。一般来说这种错误都是因为vue在渲染组件的时候，xx的数据没有进行初始化或者进行定义，并且这个时候组件就..." />
+    <meta name="keywords" content="vue" />
   </head>
   <body>
     <div id="app" class="main">
@@ -43,7 +44,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://gsdukbh.github.io">
-        <img src="https://gsdukbh.github.io/images/avatar.png?v=1605576866030" class="site-logo">
+        <img src="https://gsdukbh.github.io/images/avatar.png?v=1605661633564" class="site-logo">
         <h1 class="site-title">山海柯</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,8 +117,42 @@
               </div>
             
             <div class="post-content" v-pre>
-              
+              <h2 id="写在前面">写在前面</h2>
+<p>最近在使用vue 写网页的时候，碰到了这个错误，<code>Cannot read property 'XX' of undefined</code>。一般来说这种错误都是因为vue在渲染组件的时候，<code>xx</code>的数据没有进行初始化或者进行定义，并且这个时候组件就需要使用这个数据（或者说是渲染），就会报错。</p>
+<h2 id="奇怪的错误">奇怪的错误</h2>
+<p>一般在写网页的时候我都会尽力的去避免这个错误，都会提前去定义或者判断数据是否存在。但是这次我碰到一个比较奇怪的错误🤔🤔。<br>
+<img src="https://gsdukbh.github.io/post-images/1605616658425.png" alt="奇怪的错误提示" loading="lazy"></p>
+<blockquote>
+<p>上面是一个奇怪的错误提示</p>
+</blockquote>
+<p>错误，提示在组件Trigger中，并且是<code>data</code> 这个比较特殊的数据名称，是Vue 实例的数据对象。</p>
+<h2 id="错误的原因">错误的原因</h2>
+<p>我利用vue tool 工具快速定位到出现问题的组件。<br>
+<img src="https://gsdukbh.github.io/post-images/1605617245428.png" alt="" loading="lazy"></p>
+<blockquote>
+<p>在旁边的<code>data</code> 栏里面并没有 <code>data</code>的数据。难道这个错误提示本身就是指vue的数据对象？🤔</p>
+</blockquote>
+<p>我根据提示找到了问题组件的代码位置。</p>
+<figure data-type="image" tabindex="1"><img src="https://gsdukbh.github.io/post-images/1605617702096.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>我发现在这个组件中我使用了 <code>v-if</code>，所以肯定不会是<code>selectedRowKeys</code>没有定义的问题。<br>
+同时我注意到一个东西 ，在这个大组件下 <code>a-dropdown</code> 有一段代码是被注释掉了。我猜测可能是这段代码的原因。</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="https://gsdukbh.github.io/post-images/1605618429431.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>果然！😭😭是这一段代码的原因，把这段代码加入进去后，错误提示没有了。</p>
+</blockquote>
+<p>我去查看了官网的用例发现， <code>a-dropdown</code>  这个组件下一般都是包含了几个子标签或者组件，这是一个下拉菜单的组件。他会根据<code>slot = overlay</code>去判断是否是下拉菜单里面的内容，而<code>a</code>的<code>down</code>是触发下拉菜单的功能，若是只有<code>slot = overlay</code>的插桩，vue依旧会报错。具体原因肯定是因为  <code>a-dropdown</code>组件的实现方式。但是我的时间比较有限，并没有去查看源代码。。😪😪😪</p>
+
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://gsdukbh.github.io/tag/YUvAbNLBM/" class="tag">
+                    vue
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
