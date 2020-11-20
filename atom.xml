@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://gsdukbh.github.io</id>
     <title>山海柯</title>
-    <updated>2020-11-18T01:07:15.088Z</updated>
+    <updated>2020-11-20T06:19:39.416Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://gsdukbh.github.io"/>
     <link rel="self" href="https://gsdukbh.github.io/atom.xml"/>
@@ -208,7 +208,8 @@ SHOW VARIABLES LIKE 'lower_case_%';
 <h1 id="使用docker-镜像部署">使用Docker 镜像部署</h1>
 <p>当在使用docker 设置MySQL时会很方便，</p>
 <pre><code class="language-shell"> 
-参考命令行：docker run --name mysql8 -p 3306:3306 -p 33006:33006 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.21 --lower_case_table_names=1
+# 参考命令行：默认root密码为：123456
+docker run --name mysql8 -p 3306:3306 -p 33006:33006 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.21 --lower_case_table_names=1
 
 </code></pre>
 <h1 id="参阅">参阅</h1>

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://gsdukbh.github.io/favicon.ico?v=1605661633564">
+<link rel="shortcut icon" href="https://gsdukbh.github.io/favicon.ico?v=1605853176781">
 <link rel="stylesheet" href="https://gsdukbh.github.io/styles/main.css">
 
 
@@ -46,7 +46,7 @@ MySQL 在Windows上，默认值为1。在macOS上，默认值为2。在Linux上�
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://gsdukbh.github.io">
-        <img src="https://gsdukbh.github.io/images/avatar.png?v=1605661633564" class="site-logo">
+        <img src="https://gsdukbh.github.io/images/avatar.png?v=1605853176781" class="site-logo">
         <h1 class="site-title">山海柯</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -200,7 +200,8 @@ SHOW VARIABLES LIKE 'lower_case_%';
 <h1 id="使用docker-镜像部署">使用Docker 镜像部署</h1>
 <p>当在使用docker 设置MySQL时会很方便，</p>
 <pre><code class="language-shell"> 
-参考命令行：docker run --name mysql8 -p 3306:3306 -p 33006:33006 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.21 --lower_case_table_names=1
+# 参考命令行：默认root密码为：123456
+docker run --name mysql8 -p 3306:3306 -p 33006:33006 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.21 --lower_case_table_names=1
 
 </code></pre>
 <h1 id="参阅">参阅</h1>
