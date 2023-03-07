@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://gsdukbh.github.io</id>
+    <title>山海客</title>
+    <updated>2023-03-07T13:09:09.410Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://gsdukbh.github.io"/>
+    <link rel="self" href="https://gsdukbh.github.io/atom.xml"/>
+    <subtitle>永远在路上</subtitle>
+    <logo>https://gsdukbh.github.io/images/avatar.png</logo>
+    <icon>https://gsdukbh.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, 山海客</rights>
+    <entry>
+        <title type="html"><![CDATA[重新安排行程]]></title>
+        <id>https://gsdukbh.github.io/post/chong-xin-an-pai-xing-cheng/</id>
+        <link href="https://gsdukbh.github.io/post/chong-xin-an-pai-xing-cheng/">
+        </link>
+        <updated>2023-03-07T12:57:29.000Z</updated>
+        <summary type="html"><![CDATA[<p>给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。</p>
+<!-- more -->
+<p>这个问题和 七桥问题 相同，看能不能一次性的走完机场。</p>
+<pre><code class="language-java">public List&lt;String&gt; findItinerary(List&lt;List&lt;String&gt;&gt; tickets) {
+        List&lt;String&gt; res = new ArrayList&lt;&gt;();
+        Map&lt;String, PriorityQueue&lt;String&gt;&gt; map = new HashMap&lt;&gt;(16);
+//        邻接表
+        for (List&lt;String&gt; list :
+                tickets) {
+            String dep = list.get(0), destination = list.get(1);
+            if (!map.containsKey(dep)) {
+                map.put(dep, new PriorityQueue&lt;&gt;());
+            }
+            map.get(dep).offer(destination);
+        }
+        dfs(map, res, &quot;JFK&quot;);
+    // 逆序反转
+        Collections.reverse(res);
+        return res;
+    }
+
+    private void dfs(Map&lt;String, PriorityQueue&lt;String&gt;&gt; map, List&lt;String&gt; res, String dep) {
+        while (map.containsKey(dep) &amp;&amp; map.get(dep).size() &gt; 0) {
+            String tem = map.get(dep).poll();
+            dfs(map, res, tem);
+        }
+        res.add(dep);
+    }
+</code></pre>
+]]></content>
+    </entry>
+</feed>
