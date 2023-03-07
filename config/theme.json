@@ -1,0 +1,34 @@
+{
+  "config": {
+    "archivesPageSize": 50,
+    "archivesPath": "archives",
+    "dateFormat": "YYYY-MM-DD",
+    "feedCount": 10,
+    "feedFullText": true,
+    "footerInfo": "",
+    "postPageSize": 10,
+    "postPath": "post",
+    "postUrlFormat": "SLUG",
+    "showFeatureImage": true,
+    "siteDescription": "永远在路上",
+    "siteName": "山海客",
+    "tagPath": "tag",
+    "tagUrlFormat": "SHORT_ID",
+    "themeName": "simple"
+  },
+  "customConfig": {
+    "contentBgColor": "#f8f9fa",
+    "customCss": "",
+    "facebook": "",
+    "featureBorderRadius": "3px",
+    "ga": "",
+    "github": "",
+    "menuColor": "#dee2e6",
+    "renderCode": true,
+    "renderKaTeX": true,
+    "sidebarWidth": "320px",
+    "twitter": "",
+    "weibo": "",
+    "zhihu": ""
+  }
+}
