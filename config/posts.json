@@ -1,6 +1,38 @@
 {
   "posts": [
     {
+      "content": "2379. 得到 K 个黑块的最少涂色次数\r\n\r\n\r\n给你一个长度为 n下标从 0开始的字符串blocks，blocks[i]要么是'W'要么是'B'，表示第i块的颜色。字符'W' 和'B'分别表示白色和黑色。\r\n\r\n给你一个整数k，表示想要连续黑色块的数目。 每一次操作中，你可以选择一个白色块将它 涂成黑色块。 请你返回至少出现 一次连续 k个黑色块的 最少操作次数。\r\n\r\n<!-- more -->\r\n\r\n来源：力扣（LeetCode）\r\n链接：https://leetcode.cn/problems/minimum-recolors-to-get-k-consecutive-black-blocks\r\n著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。\r\n\r\n\r\n```text\r\n\r\n输入：blocks = \"WBBWWBBWBW\", k = 7\r\n输出：3\r\n解释：\r\n一种得到 7 个连续黑色块的方法是把第 0 ，3 和 4 个块涂成黑色。\r\n得到 blocks = \"BBBBBBBWBW\" 。\r\n可以证明无法用少于 3 次操作得到 7 个连续的黑块。\r\n所以我们返回 3 。\r\n输入：blocks = \"WBWBBBW\", k = 2\r\n输出：0\r\n解释：\r\n不需要任何操作，因为已经有 2 个连续的黑块。\r\n所以我们返回 0 。\r\n\r\n```\r\n\r\n#### 提示\r\n\r\n* n == blocks.length\r\n*   1 <= n <= 100\r\n*   blocks[i] 要么是 'W' ，要么是 'B' 。\r\n*  1 <= k <= n\r\n\r\n\r\n```java\r\n\r\n/**\r\n\r\n *\r\n * @author Li JiaWei\r\n * @version TODO\r\n * @date 2023/3/9\r\n * @since on\r\n */\r\npublic class MinimumRecolors_2379 {\r\n  \r\n  public static int minimumRecolors(String blocks, int k) {\r\n    // 这个是一个滑动窗口问题，\r\n    // 返回一个k 少操作次数的\r\n    int a = 0, b = 0, c = 0;\r\n    while (a < k) {\r\n      // 前几个次数\r\n      c += blocks.charAt(a) == 'W' ? 1 : 0;\r\n      a++;\r\n    }\r\n    int as = c;\r\n    while (a < blocks.length()) {\r\n      // 右\r\n      c += blocks.charAt(a) == 'W' ? 1 : 0;\r\n      //左\r\n      c -= blocks.charAt(b) == 'W' ? 1 : 0;\r\n      b++;\r\n      a++;\r\n      as = Math.min(as, c);\r\n    }\r\n    return as;\r\n  }\r\n\r\n  public static void main(String[] args) {\r\n    var a = \"WBBWWBBWBW\";\r\n\r\n    System.out.println(minimumRecolors(a, 7));\r\n  }\r\n}\r\n\r\n```\r\n",
+      "data": {
+        "title": "得到 K 个黑块的最少涂色次数",
+        "date": "2023-03-10 18:27:41",
+        "tags": [],
+        "published": true,
+        "hideInList": false,
+        "feature": null,
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "2379. 得到 K 个黑块的最少涂色次数\r\n\r\n\r\n给你一个长度为 n下标从 0开始的字符串blocks，blocks[i]要么是'W'要么是'B'，表示第i块的颜色。字符'W' 和'B'分别表示白色和黑色。\r\n\r\n给你一个整数k，表示想要连续黑色块的数目。 每一次操作中，你可以选择一个白色块将它 涂成黑色块。 请你返回至少出现 一次连续 k个黑色块的 最少操作次数。\r",
+      "fileName": "de-dao-k-ge-hei-kuai-de-zui-shao-tu-se-ci-shu"
+    },
+    {
+      "content": "在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？\r\n\r\n<!-- more -->\r\n\r\n来源：力扣（LeetCode）\r\n链接：https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof\r\n著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。\r\n\r\n*  示例 1:\r\n\r\n```text\r\n输入:\r\n[\r\n[1,3,1],\r\n[1,5,1],\r\n[4,2,1]\r\n]\r\n输出: 12\r\n解释: 路径 1→3→5→2→1 可以拿到最多价值的礼物\r\n\r\n```\r\n\r\n* 提示\r\n  * `0 < grid.length <= 200`\r\n  * `0 < grid[0].length <= 200`\r\n\r\n\r\n\r\n这个是动态规划问题。 我们可以把问题转化为 获取下或者右的一个单位的的最大值。\r\n\r\n```java\r\n\r\n\r\n/**\r\n * 剑指 Offer 47. 礼物的最大价值 在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于\r\n * 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？\r\n * <p>\r\n * 来源：力扣（LeetCode） 链接：https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof\r\n * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。\r\n *\r\n * @author Li JiaWei\r\n * @version TODO\r\n * @date 2023/3/8\r\n * @since on\r\n */\r\npublic class GiftMaximum_2704 {\r\n\r\n  /**\r\n   * 在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于\r\n   * 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？\r\n   * <p>\r\n   * 来源：力扣（LeetCode） 链接：https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof\r\n   * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。 输入: [ [1,3,1], [1,5,1], [4,2,1] ] 输出: 12 解释: 路径 1→3→5→2→1\r\n   * 可以拿到最多价值的礼物 提示：\r\n   * <p>\r\n   * 0 < grid.length <= 200 0 < grid[0].length <= 200\r\n   *\r\n   * @param grid\r\n   * @return\r\n   */\r\n  public static int maxValue(int[][] grid) {\r\n    //  这是一个简单的 动态规划问题，\r\n    // 实际上我要做的是 上或者下 去一个最大值。\r\n    // f(x,y) = max( x,y+1) (x+1,y)+ (x-1,y-1) 前一个位置的值。\r\n    int l = grid.length, r = grid[0].length;\r\n    int[][] w = new int[l][r];\r\n    for (int i = 0; i < l; i++) {\r\n      for (int j = 0; j < r; j++) {\r\n        if (i > 0) {\r\n          w[i][j] = Math.max(w[i][j], w[i - 1][j]);\r\n        }\r\n        if (j > 0) {\r\n          w[i][j] = Math.max(w[i][j], w[i][j - 1]);\r\n        }\r\n        w[i][j] += grid[i][j];\r\n      }\r\n    }\r\n    System.out.println(w[l - 1][r - 1]);\r\n    // 因为只需要前后两行居矩阵 ，可以这样\r\n    int[][] w1 = new int[2][r];\r\n    for (int i = 0; i < l; i++) {\r\n      for (int j = 0; j < r; j++) {\r\n        int pos = i % 2;\r\n        if (i > 0) {\r\n          w1[pos][j] = Math.max(w1[pos][j], w1[1 - pos][j]);\r\n        }\r\n        if (j > 0) {\r\n          w1[pos][j] = Math.max(w1[pos][j], w1[pos][j - 1]);\r\n        }\r\n        w1[pos][j] += grid[i][j];\r\n      }\r\n    }\r\n    System.out.println(w1[(l - 1) % 2][r - 1]);\r\n\r\n    int[] dp = new int[r + 1];\r\n    for (int i = 1; i <= l; i++) {\r\n      for (int j = 1; j <= r; j++) {\r\n        dp[i] = Math.max(dp[i], dp[j - 1]) + grid[i - 1][j - 1];\r\n//        System.out.println( dp[i]);\r\n      }\r\n    }\r\n\r\n    return dp[r];\r\n  }\r\n\r\n  public static void main(String[] args) {\r\n    int[][] gif = {\r\n        {1, 3, 1},\r\n        {1, 5, 1},\r\n        {4, 2, 1}\r\n    };\r\n    var max = maxValue(gif);\r\n    System.out.println(max);\r\n  }\r\n}\r\n\r\n```",
+      "data": {
+        "title": "剑指 Offer 47. 礼物的最大价值",
+        "date": "2023-03-09 18:10:38",
+        "tags": [],
+        "published": true,
+        "hideInList": false,
+        "feature": null,
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？\r",
+      "fileName": "jian-zhi-offer-47-li-wu-de-zui-da-jie-zhi"
+    },
+    {
       "content": "\r\n```java\r\npublic class TwoSum {\r\n     public static int[] twoSum(int[] numbers, int target) {\r\n        int high = numbers.length - 1, low = 0;\r\n        while (low < high) {\r\n            int sum = numbers[low] + numbers[high];\r\n            if (sum == target) {\r\n                return new int[] { low + 1, high + 1 };\r\n            } else if (sum > target) {\r\n                --high;\r\n            } else {\r\n                ++low;\r\n            }\r\n        }\r\n        return new int[] { -1, -1 };\r\n    }\r\n\r\n    public static int[] twoSum1(int[] numbers, int target) {\r\n        for (int i = 0; i < numbers.length; ++i) {\r\n            int low = i + 1, high = numbers.length - 1;\r\n            while (low < high) {\r\n                int mid = (high - low) / 2 + low;\r\n                if (target == numbers[mid] + numbers[i]) {\r\n                    return new int[] { i + 1, mid + 1 };\r\n                } else if (target > numbers[mid] + numbers[i]) {\r\n                    low = mid + 1;\r\n                } else {\r\n                    high = mid - 1;\r\n                }\r\n            }\r\n\r\n        }\r\n        return new int[] { -1, -1 };\r\n    }\r\n}\r\n```",
       "data": {
         "title": "两数之和",
