@@ -1,15 +1,15 @@
 {
   "config": {
     "branch": "page",
-    "domain": "https://gsdukbh.github.io",
+    "domain": "https://werls.top",
     "email": "gsdukbh@gmail.com",
     "enabledProxy": "proxy",
     "platform": "github",
     "privateKey": "",
     "proxyPath": "127.0.0.1",
-    "proxyPort": "10809",
+    "proxyPort": "7890",
     "repository": "gsdukbh.github.io",
-    "token": "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",
+    "token": "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",
     "username": "gsdukbh"
   },
   "comment": {

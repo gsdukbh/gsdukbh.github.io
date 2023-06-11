@@ -1,7 +1,7 @@
 ---
 title: '得到 K 个黑块的最少涂色次数'
 date: 2023-03-10 18:27:41
-tags: []
+tags: [leetcode]
 published: true
 hideInList: false
 feature: 

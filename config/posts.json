@@ -1,11 +1,61 @@
 {
   "posts": [
     {
+      "content": "\n原先的 WordPress 博客使用的MySQL 数据，最近打算迁移到 PostgreSQL 上面。迁移的目的主要是想体验PostgreSQL ，第二个是 PostgreSQL 在dockers上运行是占用的内存较少，对于内存不够的机子很友好，\n\n下面是我Docker 上运行的两个数据库内存占用的情况：\n\n![](https://werls.top/post-images/1686468592068.png)\n\n可以看出，MySQL 占用的内存还很多的。\n\n\n\n\n\n\n\n",
+      "data": {
+        "title": "MySQL 数据库迁移到PostgreSQL 上",
+        "date": "2023-06-11 15:10:59",
+        "tags": [],
+        "published": true,
+        "hideInList": true,
+        "feature": null,
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "mysql-shu-ju-ku-qian-yi-dao-postgresql-shang"
+    },
+    {
+      "content": "\n\n\n我之前的博客是使用WordPress搭建在一个只有512m 内存服务器上，运行非常卡顿、并且很久没有给博客进行更新了，\n\n最近打算把他迁移到新的服务器上，同时更改域名，让原来域名指向本站点。\n\n\n",
+      "data": {
+        "title": "给博客换个家",
+        "date": "2023-06-10 19:15:55",
+        "tags": [],
+        "published": true,
+        "hideInList": false,
+        "feature": null,
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "gei-bo-ke-huan-ge-jia"
+    },
+    {
+      "content": "\r\n## JWT\r\nJWT(JSON Web Token)是当前最流行的跨域身份验证解决方案。\r\n它的工作原理是:\r\n1. 客户端用用户名和密码请求服务器\r\n2. 服务器验证通过后,生成一个JWT,返回给客户端\r\n3. 客户端将JWT存储起来,并在每次请求时附带在Authorization头中\r\n4. 服务器验证JWT的有效性,如果通过就允许请求\r\n\r\n\r\nJWT的结构很简单,就是三段信息用.连接成一个字符串:\r\n - 头部(header):包含算法和token类型\r\n - 负载(payload):包含声明(claim),像用户名、过期时间等\r\n - 签名(signature):由header和payload加上secret使用指定的算法(如HMAC SHA256)计算得出\r\n  \r\n  例如:\r\n\r\n\r\n\r\n```\r\neyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\r\n```\r\n\r\n\r\n\r\n- 头部: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9`\r\n\r\n- 负载: `eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9`\r\n\r\n- 签名:`TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ`\r\n  \r\n  \r\n\r\n使用JWT的优点:\r\n\r\n1. 跨域身份验证:JWT可以在不同的域中传递,使用者无需再在每个域中维护一份用户信息。\r\n\r\n2. 易于使用:JWT可以通过URL,POST参数或者在HTTP header发送。\r\n\r\n3. 无状态:JWT是自包含的,无需在服务器端保存会话信息。\r\n\r\n4. 轻量: JWT通常使用URL safe字符集,这使其可以很轻易地通过URL,POST参数或HTTP header传输,而不会被破坏。\r\n\r\n所以,JWT适用于跨域身份验证场景,并能简化OAUTH2.0的使用。\r\n",
+      "data": {
+        "title": "为Spring Boot 3 +  Spring-Security 配置JWT",
+        "date": "2023-06-10 18:47:21",
+        "tags": [],
+        "published": true,
+        "hideInList": true,
+        "feature": null,
+        "isTop": false
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "wei-spring-boot-3-spring-security-pei-zhi-jwt"
+    },
+    {
       "content": "2379. 得到 K 个黑块的最少涂色次数\r\n\r\n\r\n给你一个长度为 n下标从 0开始的字符串blocks，blocks[i]要么是'W'要么是'B'，表示第i块的颜色。字符'W' 和'B'分别表示白色和黑色。\r\n\r\n给你一个整数k，表示想要连续黑色块的数目。 每一次操作中，你可以选择一个白色块将它 涂成黑色块。 请你返回至少出现 一次连续 k个黑色块的 最少操作次数。\r\n\r\n<!-- more -->\r\n\r\n来源：力扣（LeetCode）\r\n链接：https://leetcode.cn/problems/minimum-recolors-to-get-k-consecutive-black-blocks\r\n著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。\r\n\r\n\r\n```text\r\n\r\n输入：blocks = \"WBBWWBBWBW\", k = 7\r\n输出：3\r\n解释：\r\n一种得到 7 个连续黑色块的方法是把第 0 ，3 和 4 个块涂成黑色。\r\n得到 blocks = \"BBBBBBBWBW\" 。\r\n可以证明无法用少于 3 次操作得到 7 个连续的黑块。\r\n所以我们返回 3 。\r\n输入：blocks = \"WBWBBBW\", k = 2\r\n输出：0\r\n解释：\r\n不需要任何操作，因为已经有 2 个连续的黑块。\r\n所以我们返回 0 。\r\n\r\n```\r\n\r\n#### 提示\r\n\r\n* n == blocks.length\r\n*   1 <= n <= 100\r\n*   blocks[i] 要么是 'W' ，要么是 'B' 。\r\n*  1 <= k <= n\r\n\r\n\r\n```java\r\n\r\n/**\r\n\r\n *\r\n * @author Li JiaWei\r\n * @version TODO\r\n * @date 2023/3/9\r\n * @since on\r\n */\r\npublic class MinimumRecolors_2379 {\r\n  \r\n  public static int minimumRecolors(String blocks, int k) {\r\n    // 这个是一个滑动窗口问题，\r\n    // 返回一个k 少操作次数的\r\n    int a = 0, b = 0, c = 0;\r\n    while (a < k) {\r\n      // 前几个次数\r\n      c += blocks.charAt(a) == 'W' ? 1 : 0;\r\n      a++;\r\n    }\r\n    int as = c;\r\n    while (a < blocks.length()) {\r\n      // 右\r\n      c += blocks.charAt(a) == 'W' ? 1 : 0;\r\n      //左\r\n      c -= blocks.charAt(b) == 'W' ? 1 : 0;\r\n      b++;\r\n      a++;\r\n      as = Math.min(as, c);\r\n    }\r\n    return as;\r\n  }\r\n\r\n  public static void main(String[] args) {\r\n    var a = \"WBBWWBBWBW\";\r\n\r\n    System.out.println(minimumRecolors(a, 7));\r\n  }\r\n}\r\n\r\n```\r\n",
       "data": {
         "title": "得到 K 个黑块的最少涂色次数",
         "date": "2023-03-10 18:27:41",
-        "tags": [],
+        "tags": [
+          "leetcode"
+        ],
         "published": true,
         "hideInList": false,
         "feature": null,
@@ -21,7 +71,9 @@
       "data": {
         "title": "剑指 Offer 47. 礼物的最大价值",
         "date": "2023-03-09 18:10:38",
-        "tags": [],
+        "tags": [
+          "leetcode"
+        ],
         "published": true,
         "hideInList": false,
         "feature": null,
@@ -37,7 +89,9 @@
       "data": {
         "title": "两数之和",
         "date": "2023-03-07 21:12:31",
-        "tags": [],
+        "tags": [
+          "leetcode"
+        ],
         "published": true,
         "hideInList": false,
         "feature": null,
@@ -53,7 +107,9 @@
       "data": {
         "title": "重新安排行程",
         "date": "2023-03-07 20:57:29",
-        "tags": [],
+        "tags": [
+          "leetcode"
+        ],
         "published": true,
         "hideInList": false,
         "feature": null,
@@ -81,7 +137,20 @@
       "fileName": "about"
     }
   ],
-  "tags": [],
+  "tags": [
+    {
+      "index": -1,
+      "name": "leetcode",
+      "slug": "BKkOx1GzE",
+      "used": true
+    },
+    {
+      "index": -1,
+      "name": "GitLab",
+      "slug": "-Bapd1K0i",
+      "used": false
+    }
+  ],
   "menus": [
     {
       "link": "/",
