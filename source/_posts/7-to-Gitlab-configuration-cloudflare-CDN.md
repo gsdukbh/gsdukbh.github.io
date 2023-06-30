@@ -99,7 +99,7 @@ cloudflared login
 
 输出, 点击连接通过网页登录认证.
 
-![adee8479-5077-44cd-9bf9-91a463238c9c](/img/adee8479-5077-44cd-9bf9-91a463238c9c.png)
+![adee8479-5077-44cd-9bf9-91a463238c9c](/images/adee8479-5077-44cd-9bf9-91a463238c9c.png)
 
 
 

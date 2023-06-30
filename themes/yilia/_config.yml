@@ -66,10 +66,10 @@ top: true
 # Miscellaneous
 baidu_analytics: ''
 google_analytics: ''
-favicon: /img/favicon.ico
+favicon: /images/favicon.ico
 
 #你的头像url
-avatar: /img/avatar.png
+avatar: /images/avatar.png
 
 subtitle: "永远在路上"
 
