@@ -157,6 +157,137 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-7-to-Gitlab-configuration-cloudflare-CDN" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/30/7-to-Gitlab-configuration-cloudflare-CDN/">Gitlab 配置 cloudflare CDN 和 SSH </a>
+    </h1>
+  
+
+        
+        <a href="/2023/06/30/7-to-Gitlab-configuration-cloudflare-CDN/" class="archive-article-date">
+  	<time datetime="2023-06-30T14:07:30.707Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简单的开头"><a href="#简单的开头" class="headerlink" title="简单的开头"></a>简单的开头</h1><p>Gitlab 是一个基于Web的开源版本控制系统和代码管理系统,在企业中作为常见的代码版本管理工具。</p>
+<p>我自己部署一个Gitlab 在家中的服务器上， 那么如何非家庭网络中访问呢？ 答案是内网穿透！</p>
+<h1 id="Gitlab-部署"><a href="#Gitlab-部署" class="headerlink" title="Gitlab 部署"></a>Gitlab 部署</h1><p>Gitlab 提供多种方便的部署方式， 具体的方法可以查阅这里，<a target="_blank" rel="noopener" href="https://about.gitlab.com/install/">Download and install GitLab | GitLab</a></p>
+<p>我自己使用Docker 进行部署,下面是我的<code> docker-compose.yml</code> 文件可以参考下,</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.7&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">gitlab:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">gsdukbh/gitlab-ee-arm64:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">gitlab</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./gitlab/config:/etc/gitlab&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./gitlab/log:/var/log/gitlab&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./gitlab/data:/var/opt/gitlab&#x27;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;9000:80&#x27;</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;8090:8091&#x27;</span> <span class="comment"># pagas</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;2222:22&#x27;</span> <span class="comment"># ssh</span></span><br><span class="line">  <span class="attr">git-runner:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">gitlab/gitlab-runner:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">runner</span></span><br><span class="line">    <span class="attr">volumes:</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;/var/run/docker.sock:/var/run/docker.sock&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./runner/config:/etc/gitlab-runner&#x27;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">links:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">&#x27;gitlab:gitlab&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因我是部署在树莓派上, 使用的架构是 <code>arm64</code>,但是Gitlab官方镜像中并没有<code>arm64</code>.这里使用的是我自己构建的镜像. </p>
+<p>构建镜像dockerfile 可以看这里  <a target="_blank" rel="noopener" href="https://github.com/gsdukbh/docker-gitlab-ee-arm64">GitHub - gsdukbh&#x2F;docker-gitlab-ee-arm64: build gitlab-ee for arm64 images</a></p>
+<p>关于gitlab 部署的更多问题,可以参阅我的其他文章.</p>
+<h1 id="配置-Cloudflare-Tunnel"><a href="#配置-Cloudflare-Tunnel" class="headerlink" title="配置 Cloudflare Tunnel"></a>配置 Cloudflare Tunnel</h1><p><code>Cloudflare Tunnel</code> 是Cloudflare 推出的内网穿透的工具,可将任意内网子域或路径映射到外网域名,实现内网服务外网访问。</p>
+<p>利用Cloudflare Tunnel 可以完美配置网络穿透,并且无需任何费用.</p>
+<h2 id="安装-Cloudflare-Tunnel"><a href="#安装-Cloudflare-Tunnel" class="headerlink" title="安装 Cloudflare Tunnel"></a>安装 Cloudflare Tunnel</h2><p>使用命令行安装.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb</span><br><span class="line">sudo dpkg -i ./cloudflared-linux-amd64.de</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>推荐使用 软件包管理器进行安装  <a target="_blank" rel="noopener" href="https://pkg.cloudflare.com/index.html">官方 Linux 软件包</a>  在自己的软件源中添加 <code>pkg.cloudflare.com</code> 这样方便后续的更新.</p>
+<p>登录 Cloudflare Tunnel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cloudflared login</span><br></pre></td></tr></table></figure>
+
+<p>输出, 点击连接通过网页登录认证.</p>
+<p><img src="/img/adee8479-5077-44cd-9bf9-91a463238c9c.png" alt="adee8479-5077-44cd-9bf9-91a463238c9c"></p>
+<h2 id="连接到Cloudflare"><a href="#连接到Cloudflare" class="headerlink" title="连接到Cloudflare"></a>连接到Cloudflare</h2><ol>
+<li><p>创建一个连接通道.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cloudflared tunnel create gitlab</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>cloudflared  会创建一个唯一id的连接通道, 比如 <code>6ff42ae2-765d-4adf-8112-31c55c1551ef</code> 然后我们使用这个来连接.</p>
+<ol start="2">
+<li><p>配置本地连接网络.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.cloudflared/config.yml</span><br><span class="line">tunnel: 6ff42ae2-765d-4adf-8112-31c55c1551ef</span><br><span class="line">credentials-file: /root/.cloudflared/6ff42ae2-765d-4adf-8112-31c55c1551ef.json</span><br><span class="line"></span><br><span class="line">ingress:</span><br><span class="line">  - hostname: gitlab.yourdomain.com</span><br><span class="line">    service: http://localhost:80</span><br><span class="line">  - hostname: gitlab-ssh.yourdomain.com</span><br><span class="line">    service: ssh://localhost:22</span><br><span class="line">  - service: http_status:404</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查下配置是否正常.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cloudflared tunnel ingress validate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行Tunnel  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个会直接运行在终端, 停止会让内网穿透失败</span></span><br><span class="line">cloudflared tunnel run</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>    5. 创建一个systemd 服务来长期运行  tunnel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建文件</span></span><br><span class="line">nano /etc/systemd/system/cloudflared-tunnel.servcie</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/systemd/system/cloudflared-tunnel.servcie</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=cloudflared tunnel </span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">Type=notify</span><br><span class="line">ExecStart=/usr/bin/cloudflared tunnel run</span><br><span class="line">RestartSec=5s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置DNS"><a href="#配置DNS" class="headerlink" title="配置DNS"></a>配置DNS</h2><p>先将自己域名添加到cloudflare, 然后在<code> 网站-&gt; DNS</code> 添加DNS 记录. 选择 <code>CNAME</code> 然后填入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##名称</span></span><br><span class="line">gitlab.yourdomain.com</span><br><span class="line"><span class="comment">## 目的</span></span><br><span class="line">6ff42ae2-765d-4adf-8112-31c55c1551ef.cfargotunnel.com</span><br><span class="line"><span class="comment"># 前面guid </span></span><br></pre></td></tr></table></figure>
+
+<p>gitlab-ssh 域名重复上.</p>
+<p>等待几分钟 ,这个时候就可以访问 Gitlab了</p>
+<h1 id="配置-SSH"><a href="#配置-SSH" class="headerlink" title="配置 SSH"></a>配置 SSH</h1><p>使用 <code>cloudflare tunnel </code> 连接ssh 有些麻烦,必须在使用的电脑上安装<code>cloudflared</code> 才可以使用.</p>
+<p>安装 <code>cloudflared</code> 在 用户目录 <code>.ssh/config</code> 配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Host gitlab-ssh.yourdomain.com</span><br><span class="line">  ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h</span><br></pre></td></tr></table></figure>
+
+
+
+<p>到此, Gitlab 就完全在 <code>cloudflare </code>的代理后面了,</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">gitlab</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CDN</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SSH</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/06/30/7-to-Gitlab-configuration-cloudflare-CDN/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-wei-spring-boot-3-spring-security-pei-zhi-jwt" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -744,6 +875,18 @@ MathJax.Hub.Queue(function() {
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">gitlab</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CDN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SSH</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
