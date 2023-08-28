@@ -1,5 +1,6 @@
 ---
 title: 'Gitlab 配置 cloudflare CDN 和 SSH '
+date: '2023-7-28'
 tags:  
     - gitlab
     - CDN
