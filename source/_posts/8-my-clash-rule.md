@@ -17,6 +17,9 @@ tags:
 clash是我最近发现的加速工具，能够满足我高度冲浪的需求。
 
 我的配置如下：
+
+<!-- more -->
+
 [clash rule ](https://github.com/gsdukbh/clash-rule)
 
 
