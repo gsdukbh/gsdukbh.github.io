@@ -3,7 +3,8 @@
 
 [hexo](https://github.com/hexojs/hexo)
 
-[ blog site |博客地址](https://werls.top )
+
+[ blog 1 | 博客地址](https://werls.top )
 
 
-[ blog site |博客地址](https://gsdukbh.github.io )
+[ blog 2 | 博客地址](https://blog.werls.top )
