@@ -3,6 +3,7 @@ image: node:18.16.1
 cache:
   paths:
     - node_modules/
+    - db.json
 
 before_script:
   - npm install hexo-cli -g
