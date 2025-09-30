@@ -1,5 +1,5 @@
 ---
-title: '我的clash rule 配置 '
+title: '使用root权限跳过小米SIM卡确认'
 date: '2023-11-22'
 tags:  
     - Android
