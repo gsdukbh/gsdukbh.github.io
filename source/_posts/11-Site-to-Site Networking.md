@@ -23,6 +23,62 @@ Tailscale 是一个基于 WireGuard 的零配置 VPN 解决方案，能够轻松
 
 比如 jellyfin IP是 `192.168.2.100`, 另一个网络内的设备可以直接通过 `192.168.2.100` 访问 jellyfin 服务。不需要多余的端口映射和域名解析，就可以丝滑使用。从上海回到桂林，不用做任何改动，直接访问在上海的设备。
 
+
+# 网络拓扑图如下：
+
+
+```plantuml
+@startuml
+skinparam componentStyle uml2
+
+package "Site A (Shanghai)" {
+    frame "Subnet: 192.168.1.0/24" {
+        node "Tailscale Subnet Router A" as NodeA {
+            component "Tailscale Client" as TSA
+        }
+        node "NAS Server" as NAS {
+            card "IP: 192.168.1.30"
+        }
+    }
+}
+
+package "Site B (Guilin)" {
+    frame "Subnet: 192.168.2.0/24" {
+        node "Tailscale Subnet Router B" as NodeB {
+            component "Tailscale Client" as TSB
+        }
+        node "Jellyfin Server" as Jellyfin {
+            card "IP: 192.168.2.100"
+        }
+    }
+}
+
+cloud "Internet / Tailscale Coord" as Internet
+
+TSA <--> Internet : Encrypted Tunnel
+TSB <--> Internet : Encrypted Tunnel
+TSA <..> TSB : Virtual P2P Connection (WireGuard)
+
+NodeA <--> NAS : LAN Communication
+NodeB <--> Jellyfin : LAN Communication
+
+note bottom of TSA
+  Advertise Route: 192.168.1.0/24
+  IP Forwarding: Enabled
+end note
+
+note bottom of TSB
+  Advertise Route: 192.168.2.0/24
+  IP Forwarding: Enabled
+end note
+
+center footer Site-to-Site VPN Topology
+@enduml
+
+```
+
+
+
 # 准备工作
 
 在开始之前，确保你已经完成以下准备工作：

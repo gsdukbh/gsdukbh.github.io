@@ -91,6 +91,10 @@ live2d:
   react:
     opacity: 0.7
 
+plantuml:
+  render: "PlantUMLServer"
+  server: "http://www.plantuml.com/plantuml"
+  outputFormat: "svg"
 
 jsonContent:
     meta: false
