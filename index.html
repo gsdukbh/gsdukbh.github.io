@@ -35,7 +35,7 @@
   
 
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
   <div id="container" q-class="show:isCtnShow">
@@ -164,13 +164,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2025/09/30/10-v2ray/">v2ray</a>
+      <a class="article-title" href="/2026/01/09/10-v2ray/">v2ray</a>
     </h1>
   
 
         
-        <a href="/2025/09/30/10-v2ray/" class="archive-article-date">
-  	<time datetime="2025-09-30T14:46:11.500Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-09-30</time>
+        <a href="/2026/01/09/10-v2ray/" class="archive-article-date">
+  	<time datetime="2026-01-09T00:50:39.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2026-01-09</time>
 </a>
         
       </header>
@@ -189,7 +189,7 @@
 </ol>
 <p><img src="https://i.loli.net/2021/04/19/ZXSe7mcFObnCRuT.png" alt="image-20210419103027922"></p>
         
-          <a class="article-more-a" href="/2025/09/30/10-v2ray/#more">more >></a>
+          <a class="article-more-a" href="/2026/01/09/10-v2ray/#more">more >></a>
         
       
 
@@ -249,7 +249,158 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2025/09/30/10-v2ray/">展开全文 >></a>
+          <a class="article-more-a" href="/2026/01/09/10-v2ray/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-11-Site-to-Site Networking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/01/09/11-Site-to-Site%20Networking/">Tailscale Site-to-Site VPN 技术实践</a>
+    </h1>
+  
+
+        
+        <a href="/2026/01/09/11-Site-to-Site%20Networking/" class="archive-article-date">
+  	<time datetime="2026-01-09T00:50:39.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2026-01-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Tailscale 是一个基于 WireGuard 的零配置 VPN 解决方案，能够轻松地在不同网络环境下实现设备间的安全连接。本文将介绍如何使用 Tailscale 实现 Site-to-Site VPN，连接两个不同的网络，使得它们之间的设备可以像在同一局域网内一样进行通信。</p>
+<p>详情 请参考官方文档：<a href="https://tailscale.com/kb/1019/subnets">Tailscale Subnet Router</a></p>
+<p>这个技术在家庭网络中非常方便，可以实现远程访问、资源共享等功能。</p>
+<p>比如说你有两个家，一个在上海，一个在桂林，你可以通过 Tailscale 实现两个家庭网络<br>的互联，方便访问各自的设备和服务。</p>
+<p>配置好子网和路由表转发后，两个网络内的设备就可以直接通过 IP 进行通信，不需要切换网络IP，就像在同一个局域网内一样。</p>
+<p>比如 jellyfin IP是 <code>192.168.2.100</code>, 另一个网络内的设备可以直接通过 <code>192.168.2.100</code> 访问 jellyfin 服务。不需要多余的端口映射和域名解析，就可以丝滑使用。从上海回到桂林，不用做任何改动，直接访问在上海的设备。</p>
+<h1 id="网络拓扑图如下："><a href="#网络拓扑图如下：" class="headerlink" title="网络拓扑图如下："></a>网络拓扑图如下：</h1><img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgZGF0YS1kaWFncmFtLXR5cGU9IkRFU0NSSVBUSU9OIiBoZWlnaHQ9Ijc2NHB4IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBzdHlsZT0id2lkdGg6MTEyNnB4O2hlaWdodDo3NjRweDtiYWNrZ3JvdW5kOiNGRkZGRkY7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMTI2IDc2NCIgd2lkdGg9IjExMjZweCIgem9vbUFuZFBhbj0ibWFnbmlmeSI+PGRlZnMvPjxnPjwhLS1jbHVzdGVyIFNpdGUgQSAoU2hhbmdoYWkpLS0+PGcgY2xhc3M9ImNsdXN0ZXIiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IlNpdGUgQSAuU2hhbmdoYWkuIiBkYXRhLXNvdXJjZS1saW5lPSIzIiBpZD0iZW50MDAwMiI+PHBhdGggZD0iTTguNSw2IEwxNDcuNjQ3NSw2IEEzLjc1LDMuNzUgMCAwIDEgMTUwLjE0NzUsOC41IEwxNTcuMTQ3NSwyOC4yOTY5IEwzOTUuNSwyOC4yOTY5IEEyLjUsMi41IDAgMCAxIDM5OCwzMC43OTY5IEwzOTgsNTI5LjA5IEEyLjUsMi41IDAgMCAxIDM5NS41LDUzMS41OSBMOC41LDUzMS41OSBBMi41LDIuNSAwIDAgMSA2LDUyOS4wOSBMNiw4LjUgQTIuNSwyLjUgMCAwIDEgOC41LDYiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIgeDE9IjYiIHgyPSIxNTcuMTQ3NSIgeTE9IjI4LjI5NjkiIHkyPSIyOC4yOTY5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzOC4xNDc1IiB4PSIxMCIgeT0iMjAuOTk1MSI+U2l0ZSBBIChTaGFuZ2hhaSk8L3RleHQ+PC9nPjwhLS1jbHVzdGVyIFN1Ym5ldDogMTkyLjE2OC4xLjAvMjQtLT48ZyBjbGFzcz0iY2x1c3RlciIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iU2l0ZSBBIC5TaGFuZ2hhaS4uU3VibmV0LiAxOTIuMTY4LjEuMC4yNCIgZGF0YS1zb3VyY2UtbGluZT0iNCIgaWQ9ImVudDAwMDMiPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iNDU4LjU5IiByeD0iMi41IiByeT0iMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB3aWR0aD0iMzQ0IiB4PSIzMCIgeT0iNDkiLz48cGF0aCBkPSJNMjI1LjE3ODcsNDkgTDIyNS4xNzg3LDU4LjI5NjkgTDIxNS4xNzg3LDY4LjI5NjkgTDMwLDY4LjI5NjkiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTg1LjE3ODciIHg9IjMzIiB5PSI2Mi45OTUxIj5TdWJuZXQ6IDE5Mi4xNjguMS4wLzI0PC90ZXh0PjwvZz48IS0tY2x1c3RlciBOb2RlQS0tPjxnIGNsYXNzPSJjbHVzdGVyIiBkYXRhLXF1YWxpZmllZC1uYW1lPSJTaXRlIEEgLlNoYW5naGFpLi5TdWJuZXQuIDE5Mi4xNjguMS4wLjI0Lk5vZGVBIiBkYXRhLXNvdXJjZS1saW5lPSI1IiBpZD0iZW50MDAwNCI+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI2MiwxMTAsNzIsMTAwLDM0MiwxMDAsMzQyLDIwOC4zLDMzMiwyMTguMyw2MiwyMTguMyw2MiwxMTAiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMzMyIiB4Mj0iMzQyIiB5MT0iMTEwIiB5Mj0iMTAwIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjYyIiB4Mj0iMzMyIiB5MT0iMTEwIiB5Mj0iMTEwIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjMzMiIgeDI9IjMzMiIgeTE9IjExMCIgeTI9IjIxOC4zIi8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIwNC4xMDc0IiB4PSI5NS45NDYzIiB5PSIxMjUuOTk1MSI+VGFpbHNjYWxlIFN1Ym5ldCBSb3V0ZXIgQTwvdGV4dD48L2c+PCEtLWNsdXN0ZXIgTkFTLS0+PGcgY2xhc3M9ImNsdXN0ZXIiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IlNpdGUgQSAuU2hhbmdoYWkuLlN1Ym5ldC4gMTkyLjE2OC4xLjAuMjQuTkFTIiBkYXRhLXNvdXJjZS1saW5lPSI4IiBpZD0iZW50MDAwNiI+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI2MiwzOTEuMyw3MiwzODEuMywyNjUsMzgxLjMsMjY1LDQ2NS41OSwyNTUsNDc1LjU5LDYyLDQ3NS41OSw2MiwzOTEuMyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyNTUiIHgyPSIyNjUiIHkxPSIzOTEuMyIgeTI9IjM4MS4zIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjYyIiB4Mj0iMjU1IiB5MT0iMzkxLjMiIHkyPSIzOTEuMyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyNTUiIHgyPSIyNTUiIHkxPSIzOTEuMyIgeTI9IjQ3NS41OSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI4OS41MTY2IiB4PSIxMTQuNzQxNyIgeT0iNDA3LjI5NTEiPk5BUyBTZXJ2ZXI8L3RleHQ+PC9nPjwhLS1jbHVzdGVyIFNpdGUgQiAoR3VpbGluKS0tPjxnIGNsYXNzPSJjbHVzdGVyIiBkYXRhLXF1YWxpZmllZC1uYW1lPSJTaXRlIEIgLkd1aWxpbi4iIGRhdGEtc291cmNlLWxpbmU9IjE0IiBpZD0iZW50MDAwOCI+PHBhdGggZD0iTTczMC41LDI3NS4zIEw4NDEuNjA2NCwyNzUuMyBBMy43NSwzLjc1IDAgMCAxIDg0NC4xMDY0LDI3Ny44IEw4NTEuMTA2NCwyOTcuNTk2OSBMMTExNi41LDI5Ny41OTY5IEEyLjUsMi41IDAgMCAxIDExMTksMzAwLjA5NjkgTDExMTksNzM2LjM5IEEyLjUsMi41IDAgMCAxIDExMTYuNSw3MzguODkgTDczMC41LDczOC44OSBBMi41LDIuNSAwIDAgMSA3MjgsNzM2LjM5IEw3MjgsMjc3LjggQTIuNSwyLjUgMCAwIDEgNzMwLjUsMjc1LjMiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIgeDE9IjcyOCIgeDI9Ijg1MS4xMDY0IiB5MT0iMjk3LjU5NjkiIHkyPSIyOTcuNTk2OSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTAuMTA2NCIgeD0iNzMyIiB5PSIyOTAuMjk1MSI+U2l0ZSBCIChHdWlsaW4pPC90ZXh0PjwvZz48IS0tY2x1c3RlciBTdWJuZXQ6IDE5Mi4xNjguMi4wLzI0LS0+PGcgY2xhc3M9ImNsdXN0ZXIiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IlNpdGUgQiAuR3VpbGluLi5TdWJuZXQuIDE5Mi4xNjguMi4wLjI0IiBkYXRhLXNvdXJjZS1saW5lPSIxNSIgaWQ9ImVudDAwMDkiPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iMzk2LjU5IiByeD0iMi41IiByeT0iMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB3aWR0aD0iMzQzIiB4PSI3NTIiIHk9IjMxOC4zIi8+PHBhdGggZD0iTTk0Ny4xNzg3LDMxOC4zIEw5NDcuMTc4NywzMjcuNTk2OSBMOTM3LjE3ODcsMzM3LjU5NjkgTDc1MiwzMzcuNTk2OSIgZmlsbD0ibm9uZSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxODUuMTc4NyIgeD0iNzU1IiB5PSIzMzIuMjk1MSI+U3VibmV0OiAxOTIuMTY4LjIuMC8yNDwvdGV4dD48L2c+PCEtLWNsdXN0ZXIgTm9kZUItLT48ZyBjbGFzcz0iY2x1c3RlciIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iU2l0ZSBCIC5HdWlsaW4uLlN1Ym5ldC4gMTkyLjE2OC4yLjAuMjQuTm9kZUIiIGRhdGEtc291cmNlLWxpbmU9IjE2IiBpZD0iZW50MDAxMCI+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI3ODQsMzc5LjMsNzk0LDM2OS4zLDEwNjMsMzY5LjMsMTA2Myw0NzcuNTksMTA1Myw0ODcuNTksNzg0LDQ4Ny41OSw3ODQsMzc5LjMiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMTA1MyIgeDI9IjEwNjMiIHkxPSIzNzkuMyIgeTI9IjM2OS4zIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9Ijc4NCIgeDI9IjEwNTMiIHkxPSIzNzkuMyIgeTI9IjM3OS4zIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjEwNTMiIHgyPSIxMDUzIiB5MT0iMzc5LjMiIHkyPSI0ODcuNTkiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjAzLjk0MzQiIHg9IjgxNy41MjgzIiB5PSIzOTUuMjk1MSI+VGFpbHNjYWxlIFN1Ym5ldCBSb3V0ZXIgQjwvdGV4dD48L2c+PCEtLWNsdXN0ZXIgSmVsbHlmaW4tLT48ZyBjbGFzcz0iY2x1c3RlciIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iU2l0ZSBCIC5HdWlsaW4uLlN1Ym5ldC4gMTkyLjE2OC4yLjAuMjQuSmVsbHlmaW4iIGRhdGEtc291cmNlLWxpbmU9IjE5IiBpZD0iZW50MDAxMiI+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI3ODQsNTk4LjU5LDc5NCw1ODguNTksOTk1LDU4OC41OSw5OTUsNjcyLjg5LDk4NSw2ODIuODksNzg0LDY4Mi44OSw3ODQsNTk4LjU5IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9Ijk4NSIgeDI9Ijk5NSIgeTE9IjU5OC41OSIgeTI9IjU4OC41OSIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSI3ODQiIHgyPSI5ODUiIHkxPSI1OTguNTkiIHkyPSI1OTguNTkiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iOTg1IiB4Mj0iOTg1IiB5MT0iNTk4LjU5IiB5Mj0iNjgyLjg5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjExMS4xNjYiIHg9IjgyOS45MTciIHk9IjYxNC41ODUxIj5KZWxseWZpbiBTZXJ2ZXI8L3RleHQ+PC9nPjwhLS1lbnRpdHkgVFNBLS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iU2l0ZSBBIC5TaGFuZ2hhaS4uU3VibmV0LiAxOTIuMTY4LjEuMC4yNC5Ob2RlQS5UU0EiIGRhdGEtc291cmNlLWxpbmU9IjYiIGlkPSJlbnQwMDA1Ij48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjQ2LjI5NjkiIHJ4PSIyLjUiIHJ5PSIyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjE0NS45NjM5IiB4PSIxNzIuMDIiIHk9IjE0OCIvPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMTAiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjE1IiB4PSIyOTcuOTgzOSIgeT0iMTUzIi8+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSI0IiB4PSIyOTUuOTgzOSIgeT0iMTU1Ii8+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSI0IiB4PSIyOTUuOTgzOSIgeT0iMTU5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTA1Ljk2MzkiIHg9IjE4Ny4wMiIgeT0iMTgwLjk5NTEiPlRhaWxzY2FsZSBDbGllbnQ8L3RleHQ+PC9nPjwhLS1lbnRpdHkgSVA6IDE5Mi4xNjguMS4zMC0tPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IlNpdGUgQSAuU2hhbmdoYWkuLlN1Ym5ldC4gMTkyLjE2OC4xLjAuMjQuTkFTLklQLiAxOTIuMTY4LjEuMzAiIGRhdGEtc291cmNlLWxpbmU9IjkiIGlkPSJlbnQwMDA3Ij48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjIyLjI5NjkiIHJ4PSIyLjUiIHJ5PSIyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjEzNS4yNTM5IiB4PSI4Ni4zNyIgeT0iNDI5LjMiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTUuMjUzOSIgeD0iOTYuMzciIHk9IjQ0NS4yOTUxIj5JUDogMTkyLjE2OC4xLjMwPC90ZXh0PjwvZz48IS0tZW50aXR5IFRTQi0tPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IlNpdGUgQiAuR3VpbGluLi5TdWJuZXQuIDE5Mi4xNjguMi4wLjI0Lk5vZGVCLlRTQiIgZGF0YS1zb3VyY2UtbGluZT0iMTciIGlkPSJlbnQwMDExIj48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjQ2LjI5NjkiIHJ4PSIyLjUiIHJ5PSIyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjE0NS45NjM5IiB4PSI4MDguMDIiIHk9IjQxNy4zIi8+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIxMCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTUiIHg9IjkzMy45ODM5IiB5PSI0MjIuMyIvPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iNCIgeD0iOTMxLjk4MzkiIHk9IjQyNC4zIi8+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSI0IiB4PSI5MzEuOTgzOSIgeT0iNDI4LjMiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDUuOTYzOSIgeD0iODIzLjAyIiB5PSI0NTAuMjk1MSI+VGFpbHNjYWxlIENsaWVudDwvdGV4dD48L2c+PCEtLWVudGl0eSBJUDogMTkyLjE2OC4yLjEwMC0tPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IlNpdGUgQiAuR3VpbGluLi5TdWJuZXQuIDE5Mi4xNjguMi4wLjI0LkplbGx5ZmluLklQLiAxOTIuMTY4LjIuMTAwIiBkYXRhLXNvdXJjZS1saW5lPSIyMCIgaWQ9ImVudDAwMTMiPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMjIuMjk2OSIgcng9IjIuNSIgcnk9IjIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTQ0LjE2MTEiIHg9IjgwNy45MiIgeT0iNjM2LjU5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTI0LjE2MTEiIHg9IjgxNy45MiIgeT0iNjUyLjU4NTEiPklQOiAxOTIuMTY4LjIuMTAwPC90ZXh0PjwvZz48IS0tZW50aXR5IEludGVybmV0LS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iSW50ZXJuZXQiIGRhdGEtc291cmNlLWxpbmU9IjI1IiBpZD0iZW50MDAxNCI+PHBhdGggZD0iTTI0MC4zMTU1LDYzNC4zNzM5IEMyNDIuOTUwOCw2MjUuOTE3MiAyNDkuODAwNyw2MjUuMDM5NiAyNTQuODU4Niw2MzIuMTAzOSBDMjU5LjU5MTIsNjI2LjAzMzMgMjYzLjI3NTIsNjI2LjY0ODcgMjY2Ljc5MzcsNjMzLjI0NzYgQzI3MC41MDgzLDYyNC44OTMzIDI3Ny45MzI5LDYyNS45MDA0IDI4Mi4wNTcyLDYzMi44Mzg3IEMyODQuNDM2Nyw2MjYuMjMyIDI5MC4wNjU1LDYyNC43OCAyOTQuNzEyMiw2MzAuNTEzNiBDMjk4LjM4NzQsNjI0Ljg0MTUgMzA0LjY3NzcsNjIzLjg1OTUgMzA4LjM5NjcsNjMwLjQ2NDcgQzMxMi43OTU5LDYyNC4yNDQzIDMxNy40MDEzLDYyMi4xNzQ3IDMyMi42NjkyLDYyOS41NTMgQzMyNy44ODM3LDYyMy4xMDA5IDMzMi4yMDMxLDYyNC4xOTM5IDMzNS42MzI2LDYzMS4yNjQyIEMzMzguNzgxMiw2MjQuNjk1OSAzNDUuMDkyLDYyMi45MDUgMzQ5LjQ5MTUsNjI5Ljk5NDkgQzM1My4xMTQzLDYyNC4zMDYyIDM1OS4wNjg5LDYyNS41ODYyIDM2MS42Nzc1LDYzMS4wOTgzIEMzNjYuNTExOSw2MjQuNDE5NCAzNzAuNzgzMyw2MjMuNzUxOSAzNzUuNjM1Miw2MzEuMDgwOCBDMzgwLjgwMiw2MjQuOTEgMzg2LjUzNTgsNjI0LjM1NjUgMzkwLjAzNjgsNjMyLjczMDMgQzM5NC4wMTg0LDYyNi4wNDIgNDAwLjg5OTcsNjI1LjIyMyA0MDQuMzg1Myw2MzMuMjE1MSBDNDA4LjIyNjUsNjI4LjQzNDUgNDEyLjU2MzEsNjI5LjI4OTQgNDE1LjY0OTUsNjM0LjEwMTQgQzQxOS4yMDY2LDYyNi4zNTI5IDQyNi4yOTgxLDYyNi4zOTkzIDQzMS4xMzgyLDYzMi42ODU0IEM0NDEuNDQ3Nyw2MzUuNzc2MyA0NDEuOTc3Nyw2NDAuOTU0NCA0MzYuMDQyMiw2NDguOTQ0OSBDNDQyLjcyNTksNjU1Ljk2NzcgNDM4LjgwNzgsNjYzLjA4MjcgNDMwLjEzMzYsNjY0LjEyOTMgQzQyNy4yMDIyLDY3MC4yMDYzIDQyMi40OTQ2LDY3MS4zNzQ2IDQxNy41ODcyLDY2Ni4zNjU2IEM0MTIuNjE2OSw2NzIuNzkyMyA0MDguMzA5Myw2NzEuODY2NyA0MDMuOTA5OSw2NjUuNzQzMyBDMzk5Ljk0OCw2NzMuNjYzOSAzOTMuNTgxLDY3NC4xMDMxIDM4OC45MTM5LDY2Ni40MjEgQzM4Ni4wOTk0LDY3MS43MzY1IDM4MS44MDkxLDY3My45NjI2IDM3Ny4yMDIxLDY2OC4zNDAyIEMzNzQuNTI0LDY3Ni4wMzM4IDM2Ny44Mzg5LDY3Ni43OTE5IDM2My42MjAyLDY2OS43NjEzIEMzNjAuMjQ4Niw2NzcuNjQ5MiAzNTQuOTI4NSw2NzcuNDI2NiAzNDkuOTYwOCw2NzEuMzE5MSBDMzQ2LjA5ODMsNjc4LjgzNDggMzQwLjI1NDUsNjc4LjMxNTMgMzM2LjMwOCw2NzEuMzk4NSBDMzMxLjQ3NTUsNjc2Ljk0NjMgMzI1LjEzOTksNjc3LjQxODQgMzIxLjcwMzIsNjY5Ljg0NSBDMzE4LjMxODgsNjc1LjAxNTUgMzEyLjUzMyw2NzUuOTY3NCAzMDkuMTkyMiw2NjkuNzk2OCBDMzAzLjI5MDksNjc3LjcwNzUgMjk4LjY4NzMsNjc1LjcyNDUgMjkzLjYxOTMsNjY4LjkxNTIgQzI4OC44MDM4LDY3Mi45MDEgMjg0LjcyNTcsNjczLjUzMzggMjgxLjk0MTgsNjY2LjcxODcgQzI3Ny4xMjQ0LDY3NC4xMjA5IDI3Mi4xMTY0LDY3My44ODgyIDI2Ni43Mjg1LDY2Ny4zNDA5IEMyNjEuNzMxNiw2NzIuMTk3NCAyNTUuNTE2NCw2NzAuODQ3NyAyNTIuOTcsNjY0LjM2NyBDMjQ5LjQ4Myw2NzAuNzk2MiAyNDMuNzQzOSw2NzAuNDU5NiAyMzkuNTc1NCw2NjUuMTQ0MiBDMjI5Ljk4MzIsNjYxLjIwMzkgMjI4LjQyMzYsNjU1LjIzMzkgMjM2LjQ0MjUsNjQ4LjA2MzQgQzIzMS44NzUxLDY0Mi44ODIxIDIzMS43OTY0LDYzNS44NTI5IDI0MC4zMTU1LDYzNC4zNzM5IiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNzYuNDM1NSIgeD0iMjQ1Ljc4IiB5PSI2NTIuNTg1MSI+SW50ZXJuZXQgLyBUYWlsc2NhbGUgQ29vcmQ8L3RleHQ+PC9nPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IkdNTjIwIiBkYXRhLXNvdXJjZS1saW5lPSIzNSIgaWQ9ImVudDAwMjEiPjxwYXRoIGQ9Ik00NzguNDQsNDIwLjMxIEw0NzguNDQsNDYwLjU3NTYgTDcxMS41NTMzLDQ2MC41NzU2IEw3MTEuNTUzMyw0MzAuMzEgTDcwMS41NTMzLDQyMC4zMSBMNDc4LjQ0LDQyMC4zMSIgZmlsbD0iI0ZFRkZERCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHBhdGggZD0iTTcwMS41NTMzLDQyMC4zMSBMNzAxLjU1MzMsNDMwLjMxIEw3MTEuNTUzMyw0MzAuMzEgTDcwMS41NTMzLDQyMC4zMSIgZmlsbD0iI0ZFRkZERCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIxMi4xMTMzIiB4PSI0ODQuNDQiIHk9IjQzNy4zNzY5Ij5BZHZlcnRpc2UgUm91dGU6IDE5Mi4xNjguMS4wLzI0PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0OS45MjUzIiB4PSI0ODQuNDQiIHk9IjQ1Mi41MDk3Ij5JUCBGb3J3YXJkaW5nOiBFbmFibGVkPC90ZXh0PjwvZz48ZyBjbGFzcz0iZW50aXR5IiBkYXRhLXF1YWxpZmllZC1uYW1lPSJHTU4yMyIgZGF0YS1zb3VyY2UtbGluZT0iNDAiIGlkPSJlbnQwMDI0Ij48cGF0aCBkPSJNNDc4LjQ0LDYyNy42MSBMNDc4LjQ0LDY2Ny44NzU2IEEwLDAgMCAwIDAgNDc4LjQ0LDY2Ny44NzU2IEw3MTEuNTUzMyw2NjcuODc1NiBBMCwwIDAgMCAwIDcxMS41NTMzLDY2Ny44NzU2IEw3MTEuNTUzMyw2MzcuNjEgTDcwMS41NTMzLDYyNy42MSBMNjI2LjI0LDYyNy42MSBMODQ5LjU3LDQ2NCBMNjE4LjI0LDYyNy42MSBMNDc4LjQ0LDYyNy42MSBBMCwwIDAgMCAwIDQ3OC40NCw2MjcuNjEiIGZpbGw9IiNGRUZGREQiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxwYXRoIGQ9Ik03MDEuNTUzMyw2MjcuNjEgTDcwMS41NTMzLDYzNy42MSBMNzExLjU1MzMsNjM3LjYxIEw3MDEuNTUzMyw2MjcuNjEiIGZpbGw9IiNGRUZGREQiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIxMi4xMTMzIiB4PSI0ODQuNDQiIHk9IjY0NC42NzY5Ij5BZHZlcnRpc2UgUm91dGU6IDE5Mi4xNjguMi4wLzI0PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0OS45MjUzIiB4PSI0ODQuNDQiIHk9IjY1OS44MDk3Ij5JUCBGb3J3YXJkaW5nOiBFbmFibGVkPC90ZXh0PjwvZz48IS0tbGluayBUU0EgdG8gSW50ZXJuZXQtLT48ZyBjbGFzcz0ibGluayIgZGF0YS1lbnRpdHktMT0iZW50MDAwNSIgZGF0YS1lbnRpdHktMj0iZW50MDAxNCIgZGF0YS1saW5rLXR5cGU9ImRlcGVuZGVuY3kiIGRhdGEtc291cmNlLWxpbmU9IjI3IiBpZD0ibG5rMTUiPjxwYXRoIGQ9Ik0yNzQuOTM3NywxOTguNzQ3NiBDMjg3LjYxNzcsMjExLjM5NzYgMjk3LjUxLDIyNC4wNiAzMDUsMjQyLjMgQzMzMy43NCwzMTIuMyAzMzQuNjk1NSw1NDMuOTkwMSAzMzQuMjU1NSw2MTguMzMwMSIgZmlsbD0ibm9uZSIgaWQ9IlRTQS1JbnRlcm5ldCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjcwLjY5LDE5NC41MSwyNzQuMjM2NCwyMDMuNjk4MiwyNzQuMjI5NywxOTguMDQxMywyNzkuODg2NiwxOTguMDM0NiwyNzAuNjksMTk0LjUxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIzMzQuMjIsNjI0LjMzLDMzOC4yNzMyLDYxNS4zNTM4LDMzNC4yNDk2LDYxOS4zMzAxLDMzMC4yNzMzLDYxNS4zMDY1LDMzNC4yMiw2MjQuMzMiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTQuNjM4NyIgeD0iMzM1IiB5PSI0NDUuMDA2OSI+RW5jcnlwdGVkIFR1bm5lbDwvdGV4dD48L2c+PCEtLWxpbmsgVFNCIHRvIEludGVybmV0LS0+PGcgY2xhc3M9ImxpbmsiIGRhdGEtZW50aXR5LTE9ImVudDAwMTEiIGRhdGEtZW50aXR5LTI9ImVudDAwMTQiIGRhdGEtbGluay10eXBlPSJkZXBlbmRlbmN5IiBkYXRhLXNvdXJjZS1saW5lPSIyOCIgaWQ9ImxuazE2Ij48cGF0aCBkPSJNODUwLjgzODIsNDY3Ljc4NjEgQzgyMi4yNTgyLDQ5MS40NDYxIDc3OC4xMyw1MjMuNTggNzI5LDUzOS41OSBDNjk5LjE2LDU0OS4zMiA2MTkuMTQsNTQzLjY2IDU4OCw1NDcuNTkgQzUzMC45Miw1NTQuOCA1MTQuODEsNTUyLjI1IDQ2MSw1NzIuNTkgQzQyNi40OSw1ODUuNjQgMzk1LjQ2NDMsNjA0LjIzOTggMzcwLjYzNDMsNjIwLjg3OTgiIGZpbGw9Im5vbmUiIGlkPSJUU0ItSW50ZXJuZXQiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9Ijg1NS40Niw0NjMuOTYsODQ1Ljk3NjYsNDY2LjYxOCw4NTEuNjA4NSw0NjcuMTQ4NCw4NTEuMDc4MSw0NzIuNzgwNCw4NTUuNDYsNDYzLjk2IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIzNjUuNjUsNjI0LjIyLDM3NS4zNTMyLDYyMi41MzI1LDM2OS44MDM1LDYyMS40MzY1LDM3MC44OTk2LDYxNS44ODY4LDM2NS42NSw2MjQuMjIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTQuNjM4NyIgeD0iNTg5IiB5PSI1NjAuNjU2OSI+RW5jcnlwdGVkIFR1bm5lbDwvdGV4dD48L2c+PCEtLWxpbmsgVFNBIHRvIFRTQi0tPjxnIGNsYXNzPSJsaW5rIiBkYXRhLWVudGl0eS0xPSJlbnQwMDA1IiBkYXRhLWVudGl0eS0yPSJlbnQwMDExIiBkYXRhLWxpbmstdHlwZT0iZGVwZW5kZW5jeSIgZGF0YS1zb3VyY2UtbGluZT0iMjkiIGlkPSJsbmsxNyI+PHBhdGggZD0iTTMyNC4xMDcsMTcyLjQwOTUgQzQyMy40OTcsMTc1LjU0OTUgNTk3Ljg5LDE5Mi4wOSA3MjksMjY3LjMgQzc5My44NSwzMDQuNDkgODQyLjExNjksMzc0LjQyNjkgODY0Ljk3NjksNDExLjkyNjkiIGZpbGw9Im5vbmUiIGlkPSJUU0EtVFNCIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWRhc2hhcnJheTo3LDc7Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIzMTguMTEsMTcyLjIyLDMyNi45NzkyLDE3Ni41MDIyLDMyMy4xMDc1LDE3Mi4zNzc5LDMyNy4yMzE4LDE2OC41MDYyLDMxOC4xMSwxNzIuMjIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9Ijg2OC4xLDQxNy4wNSw4NjYuODMwOCw0MDcuMjgzMyw4NjUuNDk3NCw0MTIuNzgwNyw4NjAsNDExLjQ0NzMsODY4LjEsNDE3LjA1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjMyLjQ5NTYiIHg9IjcwNiIgeT0iMjU1LjM2NjkiPlZpcnR1YWwgUDJQIENvbm5lY3Rpb24gKFdpcmVHdWFyZCk8L3RleHQ+PC9nPjwhLS1saW5rIE5vZGVBIHRvIE5BUy0tPjxnIGNsYXNzPSJsaW5rIiBkYXRhLWVudGl0eS0xPSJlbnQwMDA0IiBkYXRhLWVudGl0eS0yPSJlbnQwMDA2IiBkYXRhLWxpbmstdHlwZT0iZGVwZW5kZW5jeSIgZGF0YS1zb3VyY2UtbGluZT0iMzEiIGlkPSJsbmsxOCI+PHBhdGggZD0iTTE0My44ODgsMjI0LjM4MjMgQzE0My45NzA4LDIyNC42ODE4IDE0Mi42MDE4LDIxOS42NDE0IDE0Mi42ODcsMjE5Ljk0MSBDMTQyLjg1NzQsMjIwLjU0MDIgMTQzLjAzMjgsMjIxLjEzOTUgMTQzLjIxMzMsMjIxLjczODUgQzE0NC42NTcyLDIyNi41MzA5IDE0Ni40MjgxLDIzMS4zMDYgMTQ4LjU5ODgsMjM1Ljg3NDggQzE1Mi45NCwyNDUuMDEyNSAxNTguODgsMjUzLjMyNSAxNjcsMjU5LjMgQzE3OS43OSwyNjguNyAyMjYuNzksMjU2LjA2IDIzOCwyNjcuMyBDMjY0Ljc2LDI5NC4xMiAyNjkuNzgsMzM2LjI0IDI2Ny45Nzg4LDM3Mi4xMDI1IEMyNjcuNTI4NCwzODEuMDY4MSAyNjYuNjUxOCwzODkuNjQyNyAyNjUuNTgxOSwzOTcuNDg5MyBDMjY1LjQ0ODIsMzk4LjQ3MDEgMjY1LjMxMTQsMzk5LjQzOTUgMjY1LjE3MjEsNDAwLjM5NyBDMjY1LjEzNzMsNDAwLjYzNjMgMjY1Ljk3OTMsMzk0LjkzOTQgMjY1Ljk0NDIsMzk1LjE3NzIiIGZpbGw9Im5vbmUiIGlkPSJOb2RlQS1OQVMiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjE0Mi4zMTE5LDIxOC41OTMsMTQwLjgxNjYsMjI4LjMyNzcsMTQzLjYyNTMsMjIzLjQxNzUsMTQ4LjUzNTYsMjI2LjIyNjIsMTQyLjMxMTksMjE4LjU5MyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjY1LjA2NzIsNDAxLjExMjgsMjcwLjMzOTcsMzkyLjc5NDEsMjY1Ljc5OCwzOTYuMTY2NSwyNjIuNDI1NywzOTEuNjI0NywyNjUuMDY3Miw0MDEuMTEyOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzMi40NTY1IiB4PSIxNjgiIHk9IjI1NS4zNjY5Ij5MQU4gQ29tbXVuaWNhdGlvbjwvdGV4dD48L2c+PCEtLWxpbmsgTm9kZUIgdG8gSmVsbHlmaW4tLT48ZyBjbGFzcz0ibGluayIgZGF0YS1lbnRpdHktMT0iZW50MDAxMCIgZGF0YS1lbnRpdHktMj0iZW50MDAxMiIgZGF0YS1saW5rLXR5cGU9ImRlcGVuZGVuY3kiIGRhdGEtc291cmNlLWxpbmU9IjMyIiBpZD0ibG5rMTkiPjxwYXRoIGQ9Ik05ODAuMTc2OCw0OTQuMDM0OSBDOTc5Ljc4MDYsNDk3LjE4OSA5NzkuNTg4OSw0OTkuMTQ1MiA5NzkuMjMxLDUwMi40NDUyIEM5NzguNTE1Myw1MDkuMDQ1MSA5NzcuODkyMiw1MTUuODk4OCA5NzcuNDI1LDUyMi44NTQyIEM5NzYuNDkwNiw1MzYuNzY1IDk3Ni4xOCw1NTEuMDgyNSA5NzcsNTY0LjU5IEM5NzcuMjcsNTY5LjAzNjMgOTc3LjYyMTIsNTczLjYxMDMgOTc4LjAzMDEsNTc4LjIxNiBDOTc4LjIzNDYsNTgwLjUxODkgOTc4LjQ1MzQsNTgyLjgyOTcgOTc4LjY4MzcsNTg1LjEzNjMgQzk3OC43NDEyLDU4NS43MTMgOTc4Ljc5OTUsNTg2LjI4OTQgOTc4Ljg1ODUsNTg2Ljg2NTQgQzk3OC44ODgsNTg3LjE1MzQgOTc4LjkxNzYsNTg3LjQ0MTIgOTc4Ljk0NzQsNTg3LjcyOSBDOTc4Ljk2MjMsNTg3Ljg3MjkgOTc4LjM1NTQsNTgyLjA0OSA5NzguMzcwNCw1ODIuMTkyOCIgZmlsbD0ibm9uZSIgaWQ9Ik5vZGVCLUplbGx5ZmluIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSI5ODAuOTcwOCw0ODguMDg3Nyw5NzUuODE1LDQ5Ni40NzkyLDk4MC4zMDkyLDQ5My4wNDM3LDk4My43NDQ2LDQ5Ny41Mzc5LDk4MC45NzA4LDQ4OC4wODc3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSI5NzguOTkyMyw1ODguMTYwNSw5ODIuMDM4LDU3OC43OTQ0LDk3OC40NzQxLDU4My4xODc0LDk3NC4wODEsNTc5LjYyMzUsOTc4Ljk5MjMsNTg4LjE2MDUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMzIuNDU2NSIgeD0iOTc4IiB5PSI1NjAuNjU2OSI+TEFOIENvbW11bmljYXRpb248L3RleHQ+PC9nPjwhLS1saW5rIFRTQSB0byBHTU4yMC0tPjxnIGNsYXNzPSJsaW5rIiBkYXRhLWVudGl0eS0xPSJlbnQwMDA1IiBkYXRhLWVudGl0eS0yPSJlbnQwMDIxIiBkYXRhLWxpbmstdHlwZT0iYXNzb2NpYXRpb24iIGRhdGEtc291cmNlLWxpbmU9IjM1IiBpZD0ibG5rMjIiPjxwYXRoIGQ9Ik0zMTIuNjgsMTk0LjcgQzM1NS4wMiwyMTAuODIgNDA5LjI0LDIzNS4zMiA0NTEsMjY3LjMgQzUwOS43OCwzMTIuMyA1NjAuNjMsMzg1LjMzIDU4Mi45NCw0MTkuOTkiIGZpbGw9Im5vbmUiIGlkPSJUU0EtR01OMjAiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTtzdHJva2UtZGFzaGFycmF5OjcsNzsiLz48L2c+PGcgY2xhc3M9ImZvb3RlciIgZGF0YS1zb3VyY2UtbGluZT0iNDQiPjx0ZXh0IGZpbGw9IiM4ODg4ODgiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEyOC4yMTc4IiB4PSI0OTEuODkxMSIgeT0iNzU0LjE3MjIiPlNpdGUtdG8tU2l0ZSBWUE4gVG9wb2xvZ3k8L3RleHQ+PC9nPjwhLS1TUkM9W2JQRERRLUNtNDhSbC1YTTNKLWFYUms4amZIakFtSXhUcWdLNEt1VmtNUjZMTDVJVUNPZ3E5UEp5enV4aWhKNGNzbXlUUjJtenl5eENnXzdrTU1DWmhRb1hmQmVYTEVXQWpwU0FWNnFJOEhmUEZpa2pXZ1pHSmE0QWEtOTl1bFA5d2ZDOE5XTm1zZDFpRUZUaEw2dTF5dno5RjMtX1lFVm54M0d2VXVWMkdnZ09NcWJqVGdOYTE1cTRGOTF0b2E4UVdUcDFhZmJxNDFETU56U20tRGZldGNiWkxhTlF5dVRIamNMUUdBN2lOc0t4VVZ1U1lLalJHTklOM21sX0NPajZXV1RuNjVrSG1VSk1Rd0ZuQ29FSVJuZ0h6S1BhdHBPWS13eUhsdktuLXV0NmVIbHp0Y1VNeTdEc3Q5RklhMHltU2tNWFhyQ09MNFBhZ3BSSC14NEdWNVRtRVByVXpMa21XMWlpeFJ2bmdlQUxIckk2ZVVtaDQybDV5TE5lY2l5VmpOTFU2aVlKZDFDcEtKZkQyOUNfc2dmUnBuc1QyRDRETHdpUzFjNDF6LWNJdVJoc2c0aVBVRDdQdFlBekV5U3VXU0dwaTJSZGcwUlFfOWwxajY5aGRUd2Z4WXg3Rm1DSlRwZHk4bGwyek1aU1hneGFzZ1hBQUFtV0ExeEhwSnhJSlJ3aU13aFc5TW84bVlqQ3lESkhqOXRhbnRtOUFzaDhxN1JfMVcwMF0tLT48L2c+PC9zdmc+'>
+
+
+
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>在开始之前，确保你已经完成以下准备工作：</p>
+<ol>
+<li><p>注册并登录 Tailscale 账号。</p>
+</li>
+<li><p>在两个不同的网络环境（A, B）中各有一台设备（如服务器、路由器等）作为 Tailscale 的节点。</p>
+</li>
+<li><p>在这两台设备上安装并配置好 Tailscale 客户端。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Tailscale</span></span><br><span class="line">curl -fsSL https://tailscale.com/install.sh | sh</span><br><span class="line"><span class="comment"># 启动 Tailscale 并登录</span></span><br><span class="line"><span class="built_in">sudo</span> tailscale up</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="配置-Site-to-Site-VPN"><a href="#配置-Site-to-Site-VPN" class="headerlink" title="配置 Site-to-Site VPN"></a>配置 Site-to-Site VPN</h1><h2 id="配置A网络"><a href="#配置A网络" class="headerlink" title="配置A网络"></a>配置A网络</h2><p>先配置 A网络的节点：<br>假设在这个网络中是有NAS服务器，IP地址是 <code>192.168.1.30</code>，网段是 <code>192.168.1.0/24</code></p>
+<ol>
+<li><p><strong>启用子网路由</strong>：在每个节点上启用子网路由功能，使得该节点可以作为子网的路由器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up --advertise-routes=&lt;子网CIDR&gt;</span><br></pre></td></tr></table></figure>
+
+<p>例如，如果你的服务器是在A住所的网段是 <code>192.168.1.0/24</code>，你可以这样配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up --advertise-routes=192.168.1.0/24</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>接受路由广播</strong>：在 Tailscale 管理控制台中，接受来自两个节点的路由。注意这步骤需要在 Tailscale 的 Web 控制台中操作。</p>
+</li>
+</ol>
+<p>选择 “Subnet routes” 来允许节点之间的路由通信。然后点击 <code>Save </code> 保存配置。<br><img src="/images/10675bb2-6bb2-4454-9887-828dadbf0719.png" alt="alt text"><br><img src="/images/22a43773-4326-4652-a7fc-b90638de35af.png" alt="alt text"></p>
+<ol start="3">
+<li><p><strong>配置防火墙规则</strong>：确保两个网络的防火墙允许 Tailscale 的流量通过，特别是 WireGuard 使用的 UDP 端口（默认是 51820）。</p>
+</li>
+<li><p><strong>启用 IP 转发</strong>：确保节点设备启用了 IP 转发功能，以允许数据包在不同子网之间转发。</p>
+<p>在 Linux 系统上，可以通过以下命令启用 IP 转发：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.ip_forward = 1&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/sysctl.d/99-tailscale.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv6.conf.all.forwarding = 1&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/sysctl.d/99-tailscale.conf</span><br><span class="line"><span class="built_in">sudo</span> sysctl -p /etc/sysctl.d/99-tailscale.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>配置路由表</strong>：确保你的设备路由表中包含了正确的路由信息，以便将流量正确地引导到 Tailscale 网络。</p>
+</li>
+</ol>
+<p>在路由器上添加静态路由，将目标子网指向 Tailscale 节点的 IP 地址。如下图，作用是让局域网内的设备访问 <code>192.168.2.0/24</code> 网段的设备时，通过 Tailscale 节点进行转发。<br><img src="/images/025b6c14-ba17-4d11-888b-52b7bb1a85c9.png" alt="alt text"></p>
+<h3 id="配置B网络"><a href="#配置B网络" class="headerlink" title="配置B网络"></a>配置B网络</h3><p>接下来配置 B网络的节点：<br>这边的局域网内最有一个Linux 稳定运行设备，用于流量转发。</p>
+<ol>
+<li><p><strong>安装 Tailscale 并登录</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://tailscale.com/install.sh | sh</span><br><span class="line"><span class="built_in">sudo</span> tailscale up</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>启用子网路由</strong>，和上面相同。如果你不需要在 A网络内访问 B网络的设备，可以不配置子网路由。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up --advertise-routes=192.168.2.0/24</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>3.<strong>启用 IP 转发</strong>，和上面相同。用于转发流量到 A网络。</p>
+<ol start="4">
+<li><strong>配置路由表</strong>：<br>在路由器上添加静态路由，将目标子网指向 Tailscale 节点的 IP 地址。如下图，作用是让局域网内的设备访问 <code>192.168.1.0/24</code> 网段的设备时，通过 Tailscale 节点进行转发。</li>
+</ol>
+<p><img src="/images/468ab609-ea28-4869-9db1-b15dbde8de90.png" alt="配置b地点的路由表"></p>
+<h1 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h1><p>完成上述配置后，可以通过以下步骤测试 Site-to-Site VPN 的连接：</p>
+<ol>
+<li><p><strong>Ping 测试</strong>：从 A网络内的设备 ping B网络内的设备，反之亦然，确保能够互相通信。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping &lt;B网络设备IP&gt;</span><br><span class="line">ping &lt;A网络设备IP&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>访问服务</strong>：尝试从 A网络访问 B网络内的服务（如 Web 服务器、文件共享等），确保服务能够正常访问。</p>
+</li>
+</ol>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>原理可以参考 Tailscale 官方文档：<a href="https://tailscale.com/kb/1019/subnets">Tailscale Subnet Router</a><br>官方视频</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UmVMaymH1-s?si=bdBtooJkBjMztUqR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Tailscale</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">VPN</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Site-to-Site</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Tailscale subnet router</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">openwrt</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2026/01/09/11-Site-to-Site%20Networking/">展开全文 >></a>
         </p>
       
 
@@ -994,81 +1145,10 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2017/01/02/hello-world/" class="archive-article-date">
-  	<time datetime="2017-01-02T10:47:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/01/02/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1079,7 +1159,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2025 JiaWei
+    		&copy; 2026 JiaWei
 				
 			<a href="http://blog.werls.top" target="_blank"> JiaWei's blog by wordpress</a>
 			<a href="http://rpi.werls.top" target="_blank">一个搭建在树莓派上的小网站</a>
@@ -1213,6 +1293,26 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Tailscale</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">VPN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Site-to-Site</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Tailscale subnet router</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">openwrt</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">gitlab</a>
               </li>
              
@@ -1222,14 +1322,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SSH</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">VPN</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">v2ay</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1250,6 +1342,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">v2ay</a>
               </li>
             
             <div class="clearfix"></div>
