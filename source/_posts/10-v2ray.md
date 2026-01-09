@@ -1,5 +1,6 @@
 ---
 title: 'v2ray'
+date: 2021-04-20 10:30:00 +0800
 tags:  
     - vps
     - v2ray

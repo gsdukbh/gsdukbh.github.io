@@ -1,5 +1,6 @@
 ---
 title: 'Tailscale Site-to-Site VPN 技术实践'
+date: 2026-01-08 21:00:00
 tags:  
     - Tailscale
     - VPN
