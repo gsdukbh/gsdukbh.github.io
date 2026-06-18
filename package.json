@@ -27,7 +27,7 @@
     "http-cache-semantics": "^4.1.1",
     "node-fetch": "^2.7.0",
     "cross-spawn": "^7.0.6",
-    "tmp": "^0.2.5",
+    "tmp": "^0.2.7",
     "minimist": "^1.2.8",
     "got": "^11.8.5",
     "socks": "^2.8.3",
